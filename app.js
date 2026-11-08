@@ -46,7 +46,7 @@ const MEDIA_MIME = {
 function defaults() {
   return {
     provider: 'openai', baseUrl: PROVIDERS.openai.base, apiKey: '', model: PROVIDERS.openai.model,
-    systemPrompt: DEFAULT_PROMPT, pdfAsImages: false
+    systemPrompt: DEFAULT_PROMPT, pdfAsImages: false, temperature: 1
   };
 }
 function loadSettings() {
@@ -64,9 +64,9 @@ function loadChat() {
 }
 function saveChat() {
   const slim = (withText) => messages.map((m) => ({
-    role: m.role, text: m.text,
+    role: m.role, text: m.text, sources: m.sources,
     files: (m.files || []).map((f) => ({
-      name: f.name, note: f.note,
+      name: f.name, note: f.note, off: f.off,
       text: withText ? f.text : undefined,
       imageCount: (f.images || []).length || f.imageCount || 0,
       hadMedia: !!f.media || !!f.hadMedia
@@ -346,6 +346,7 @@ function normalizeHistory(list) {
 
 function buildRequest(s, h) {
   const base = s.baseUrl.trim().replace(/\/+$/, '');
+  h = h.map((m) => ({ ...m, files: (m.files || []).filter((f) => !f.off) }));
   if (s.provider === 'openai') {
     const msgs = [];
     if (s.systemPrompt.trim()) msgs.push({ role: 'system', content: s.systemPrompt });
@@ -362,7 +363,7 @@ function buildRequest(s, h) {
     return {
       url: base.endsWith('/chat/completions') ? base : base + '/chat/completions',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + s.apiKey },
-      body: { model: s.model, messages: msgs, stream: true },
+      body: { model: s.model, messages: msgs, stream: true, temperature: s.temperature ?? 1 },
       extract: (o) => {
         const c = o.choices && o.choices[0];
         if (!c) return '';
@@ -377,7 +378,7 @@ function buildRequest(s, h) {
       parts.push({ type: 'text', text: fullText(m, false) });
       return { role: m.role, content: parts };
     });
-    const body = { model: s.model, max_tokens: 4096, messages: msgs, stream: true };
+    const body = { model: s.model, max_tokens: 4096, messages: msgs, stream: true, temperature: s.temperature ?? 1 };
     if (s.systemPrompt.trim()) body.system = s.systemPrompt;
     return {
       url: base.endsWith('/v1') ? base + '/messages' : base + '/v1/messages',
@@ -402,7 +403,7 @@ function buildRequest(s, h) {
     }
     return { role: m.role === 'assistant' ? 'model' : 'user', parts };
   });
-  const body = { contents };
+  const body = { contents, generationConfig: { temperature: s.temperature ?? 1 } };
   if (s.systemPrompt.trim()) body.systemInstruction = { parts: [{ text: s.systemPrompt }] };
   const model = s.model.trim().replace(/^models\//, '');
   return {
@@ -481,7 +482,8 @@ function makeBubble(m, streaming) {
   b.className = 'bubble';
   if (m.role === 'user') {
     for (const f of m.files || []) {
-      const c = document.createElement('div'); c.className = 'fchip'; c.textContent = '📎 ' + f.name; b.append(c);
+      const c = document.createElement('div'); c.className = 'fchip'; c.textContent = '📎 ' + f.name + (f.off ? ' (غیرفعال)' : '');
+      c.title = 'دیدن متن فایل'; c.onclick = () => viewFile(f); b.append(c);
     }
     const p = document.createElement('div'); p.className = 'utext'; p.textContent = m.text; b.append(p);
   } else {
@@ -495,6 +497,11 @@ function makeBubble(m, streaming) {
       cp.className = 'copy'; cp.textContent = 'کپی';
       cp.onclick = async () => { try { await navigator.clipboard.writeText(m.text); toast('کپی شد'); } catch (e) { toast('کپی ممکن نشد'); } };
       b.append(cp);
+    }
+    if (!streaming && m.sources && m.sources.length) {
+      const sr = document.createElement('div'); sr.className = 'srcs';
+      sr.textContent = 'منابع: ' + m.sources.join('، ');
+      b.append(sr);
     }
     if (streaming) streamEl = c;
   }
@@ -540,8 +547,9 @@ function updateStream() {
 function renderChips() {
   chipsEl.innerHTML = '';
   pending.forEach((f, i) => {
-    const c = document.createElement('div'); c.className = 'chip';
-    const s = document.createElement('span'); s.textContent = f.name;
+    const c = document.createElement('div'); c.className = 'chip' + (f.off ? ' off' : '');
+    const s = document.createElement('span'); s.className = 'nm'; s.textContent = f.name; s.title = 'دیدن متن فایل';
+    s.onclick = () => viewFile(f);
     const x = document.createElement('button'); x.textContent = '×'; x.setAttribute('aria-label', 'حذف');
     x.onclick = () => { pending.splice(i, 1); renderChips(); updateUI(); };
     c.append(s, x); chipsEl.append(c);
@@ -552,6 +560,26 @@ function renderChips() {
     chipsEl.append(c);
   }
 }
+
+/* ======================= نمایش متن فایل (از DocuBrain) ======================= */
+let viewTarget = null;
+function syncViewToggle() {
+  $('#viewToggle').textContent = viewTarget && viewTarget.off ? 'فعال‌کردن در پاسخ‌ها' : 'غیرفعال‌کردن در پاسخ‌ها';
+}
+function viewFile(f) {
+  viewTarget = f;
+  $('#viewTitle').textContent = f.name;
+  $('#viewText').textContent = f.text || (f.note ? '[' + f.note + ']' : '') || '(متن قابل نمایشی برای این فایل در حافظه نیست)';
+  syncViewToggle();
+  const d = $('#viewDlg');
+  if (!d.open) d.showModal();
+}
+$('#viewToggle').onclick = () => {
+  if (!viewTarget) return;
+  viewTarget.off = !viewTarget.off;
+  syncViewToggle(); renderChips(); saveChat(); render();
+};
+$('#viewClose').onclick = () => $('#viewDlg').close();
 
 function updateUI() {
   const can = !busy && !processing && (inputEl.value.trim() || pending.length);
@@ -600,6 +628,7 @@ async function run() {
   busy = true;
   const history = messages.slice();
   const reply = { role: 'assistant', text: '', files: [] };
+  reply.sources = [...new Set(history.flatMap((m) => (m.files || [])).filter((f) => !f.off).map((f) => f.name))];
   messages.push(reply);
   render();
   abortCtl = new AbortController();
@@ -644,6 +673,7 @@ fProvider.onchange = () => {
   dlgProvider = fProvider.value; fHint.textContent = nw.hint;
 };
 $('#fShow').onchange = (e) => { fKey.type = e.target.checked ? 'text' : 'password'; };
+$('#fTemp').oninput = (e) => { $('#fTempVal').textContent = e.target.value; };
 
 /* ======================= بارگزاری مدلها ======================= */
 const fModels = $('#fModels'), fModelsMsg = $('#fModelsMsg');
@@ -704,6 +734,7 @@ function openSettings() {
   fProvider.value = settings.provider; dlgProvider = settings.provider;
   fBase.value = settings.baseUrl; fKey.value = settings.apiKey; fKey.type = 'password'; $('#fShow').checked = false;
   fModel.value = settings.model; fPrompt.value = settings.systemPrompt; fPdfImg.checked = settings.pdfAsImages;
+  $('#fTemp').value = settings.temperature ?? 1; $('#fTempVal').textContent = $('#fTemp').value;
   fHint.textContent = PROVIDERS[settings.provider].hint;
   fModels.hidden = true; fModels.innerHTML = ''; fModelsMsg.textContent = '';
   if (!dlg.open) dlg.showModal();
@@ -713,7 +744,7 @@ $('#form').addEventListener('submit', (e) => {
   if (!fKey.value.trim() || !fBase.value.trim() || !fModel.value.trim()) { toast('آدرس، کلید و نام مدل را کامل کنید'); return; }
   settings = {
     provider: fProvider.value, baseUrl: fBase.value.trim(), apiKey: fKey.value.trim(), model: fModel.value.trim(),
-    systemPrompt: fPrompt.value, pdfAsImages: fPdfImg.checked
+    systemPrompt: fPrompt.value, pdfAsImages: fPdfImg.checked, temperature: parseFloat($('#fTemp').value)
   };
   saveSettings(); dlg.close(); toast('ذخیره شد');
 });
@@ -728,6 +759,9 @@ $('#fClear').onclick = () => {
 $('#btnSettings').onclick = openSettings;
 $('#btnNew').onclick = () => { if (!messages.length || confirm('گفتگوی جدید شروع شود؟')) newChat(); };
 $('#btnAttach').onclick = () => $('#file').click();
+document.querySelectorAll('#quick button').forEach((b) => {
+  b.onclick = () => { inputEl.value = b.getAttribute('data-q'); autoGrow(); updateUI(); inputEl.focus(); };
+});
 $('#file').onchange = (e) => { addFiles(e.target.files); e.target.value = ''; };
 btnSend.onclick = send;
 btnStop.onclick = () => { if (abortCtl) abortCtl.abort(); };

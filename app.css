@@ -114,3 +114,14 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .modellist .mrow.sel{background:var(--primary); color:var(--on-primary); font-weight:600}
 #fLoadModels{align-self:flex-start}
 #fModelsMsg{color:var(--muted); font-size:12px; white-space:pre-wrap; word-break:break-word}
+
+#quick{display:flex; gap:6px; padding:6px 12px 0; flex-wrap:wrap}
+#quick button{border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:999px; padding:5px 12px; font:inherit; font-size:13px; cursor:pointer}
+.chip.off{opacity:.45}
+.chip .nm{cursor:pointer}
+.fchip{cursor:pointer}
+.srcs{font-size:12px; color:var(--muted); margin-top:6px}
+#viewDlg{padding:0 16px 16px}
+#viewDlg .vhead{display:flex; align-items:center; justify-content:space-between; gap:8px; padding:14px 0 6px}
+#viewDlg h2{font-size:16px; margin:0; word-break:break-all}
+#viewDlg pre{white-space:pre-wrap; word-break:break-word; max-height:60dvh; overflow:auto; font-size:13px; line-height:1.7; background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:10px 12px; margin:0}
