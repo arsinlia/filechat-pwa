@@ -1,4 +1,4 @@
-const VERSION = 'filechat-v1';
+const VERSION = 'filechat-v2';
 const SHELL = [
   './', './index.html', './app.css', './app.js', './manifest.webmanifest',
   './icon-192.png', './icon-512.png', './icon-maskable-512.png'

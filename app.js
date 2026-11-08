@@ -645,11 +645,67 @@ fProvider.onchange = () => {
 };
 $('#fShow').onchange = (e) => { fKey.type = e.target.checked ? 'text' : 'password'; };
 
+/* ======================= بارگزاری مدلها ======================= */
+const fModels = $('#fModels'), fModelsMsg = $('#fModelsMsg');
+function modelsRequest(provider, base, key) {
+  base = base.trim().replace(/\/+$/, '');
+  if (provider === 'anthropic') return {
+    url: base.endsWith('/v1') ? base + '/models' : base + '/v1/models',
+    headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    parse: (o) => (o.data || []).map((m) => m.id).filter(Boolean)
+  };
+  if (provider === 'gemini') return {
+    url: base + '/v1beta/models',
+    headers: { 'x-goog-api-key': key },
+    parse: (o) => (o.models || []).map((m) => String(m.name || '').replace(/^models\//, '')).filter(Boolean)
+  };
+  return {
+    url: base.endsWith('/models') ? base : base + '/models',
+    headers: { Authorization: 'Bearer ' + key },
+    parse: (o) => (o.data || []).map((m) => m.id || m.name).filter(Boolean)
+  };
+}
+function renderModelList(ids) {
+  fModels.innerHTML = '';
+  for (const id of ids) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'mrow' + (id === fModel.value.trim() ? ' sel' : ''); b.textContent = id;
+    b.onclick = () => {
+      fModel.value = id;
+      fModels.querySelectorAll('.mrow').forEach((r) => r.classList.toggle('sel', r === b));
+    };
+    fModels.append(b);
+  }
+  fModels.hidden = !ids.length;
+}
+$('#fLoadModels').onclick = async () => {
+  const base = fBase.value.trim(), key = fKey.value.trim();
+  if (!base || !key) { fModelsMsg.textContent = 'اول Base URL و API Key را وارد کنید.'; return; }
+  const btn = $('#fLoadModels');
+  btn.disabled = true; fModelsMsg.textContent = 'در حال بارگزاری مدلها...';
+  try {
+    const rq = modelsRequest(fProvider.value, base, key);
+    const resp = await fetch(rq.url, { headers: rq.headers });
+    const raw = await resp.text();
+    if (!resp.ok) { fModelsMsg.textContent = 'HTTP ' + resp.status + '\n' + raw.slice(0, 800); fModels.hidden = true; return; }
+    let ids = [];
+    try { ids = rq.parse(JSON.parse(raw)); } catch (e) { /* ignore */ }
+    ids = [...new Set(ids)].sort();
+    if (!ids.length) { fModelsMsg.textContent = 'پرووایدر هیچ مدلی برنگرداند.'; fModels.hidden = true; return; }
+    renderModelList(ids);
+    fModelsMsg.textContent = ids.length + ' مدل بارگزاری شد. روی مدل موردنظر بزنید، بعد «ذخیره» را بزنید.';
+  } catch (e) {
+    fModelsMsg.textContent = 'اتصال ممکن نشد: ' + e.message;
+    fModels.hidden = true;
+  } finally { btn.disabled = false; }
+};
+
 function openSettings() {
   fProvider.value = settings.provider; dlgProvider = settings.provider;
   fBase.value = settings.baseUrl; fKey.value = settings.apiKey; fKey.type = 'password'; $('#fShow').checked = false;
   fModel.value = settings.model; fPrompt.value = settings.systemPrompt; fPdfImg.checked = settings.pdfAsImages;
   fHint.textContent = PROVIDERS[settings.provider].hint;
+  fModels.hidden = true; fModels.innerHTML = ''; fModelsMsg.textContent = '';
   if (!dlg.open) dlg.showModal();
 }
 $('#form').addEventListener('submit', (e) => {
