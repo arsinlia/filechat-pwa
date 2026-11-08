@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>چت با فایل</title>
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>چت با فایل</h1>
+    <span class="sp"></span>
+    <button id="btnInstall" class="txt" hidden>نصب برنامه</button>
+    <button id="btnNew" class="ic" aria-label="گفتگوی جدید" title="گفتگوی جدید">
+      <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
+    </button>
+    <button id="btnSettings" class="ic" aria-label="تنظیمات" title="تنظیمات">
+      <svg viewBox="0 0 24 24"><path d="M19.14 12.94a7.07 7.07 0 0 0 .06-.94c0-.32-.02-.63-.07-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7 7 0 0 0-1.62-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 0 0-.61.22L2.74 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.05.31-.07.63-.07.94s.02.63.07.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.61.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.09.48 0 .61-.22l1.92-3.32a.5.5 0 0 0-.12-.64zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg>
+    </button>
+  </header>
+
+  <main id="chat"></main>
+
+  <div id="errbar" hidden></div>
+  <div id="chips"></div>
+
+  <footer class="composer">
+    <button id="btnAttach" class="ic" aria-label="پیوست فایل" title="پیوست فایل">
+      <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg>
+    </button>
+    <textarea id="input" rows="1" placeholder="سؤال درباره‌ی فایل‌ها..."></textarea>
+    <button id="btnSend" class="ic primary" aria-label="ارسال" title="ارسال">
+      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+    <button id="btnStop" class="ic danger" aria-label="توقف" title="توقف" hidden>
+      <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+    </button>
+  </footer>
+</div>
+
+<input type="file" id="file" multiple hidden>
+
+<dialog id="dlg">
+  <form id="form" method="dialog">
+    <h2>تنظیمات</h2>
+
+    <label>نوع API
+      <select id="fProvider"></select>
+    </label>
+
+    <label>Base URL
+      <input id="fBase" dir="ltr" autocomplete="off" spellcheck="false">
+      <small id="fHint"></small>
+    </label>
+
+    <label>API Key
+      <input id="fKey" dir="ltr" type="password" autocomplete="off" spellcheck="false">
+    </label>
+    <label class="row"><input type="checkbox" id="fShow"> نمایش کلید</label>
+
+    <label>نام مدل
+      <input id="fModel" dir="ltr" autocomplete="off" spellcheck="false">
+    </label>
+
+    <label>پرامپت سیستمی
+      <textarea id="fPrompt" rows="4"></textarea>
+    </label>
+
+    <label class="row"><input type="checkbox" id="fPdfImg"> ارسال PDF به صورت تصویر (برای مدل‌های بینا؛ برای PDF فارسی معمولاً دقیق‌تر است)</label>
+
+    <p class="note">
+      کلید فقط در حافظه‌ی همین مرورگر ذخیره می‌شود و درخواست‌ها مستقیم به سرویس‌دهنده می‌روند.
+      برای نصب: در Chrome اندروید منوی ⋮ ← «نصب برنامه»؛ در iOS Safari دکمه‌ی اشتراک‌گذاری ← «Add to Home Screen».
+    </p>
+
+    <div class="actions">
+      <button type="button" id="fClear" class="txt danger-t">پاک کردن همه‌ی داده‌ها</button>
+      <span class="sp"></span>
+      <button type="button" id="fCancel" class="txt">بستن</button>
+      <button type="submit" id="fSave" class="btn">ذخیره</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
