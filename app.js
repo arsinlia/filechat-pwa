@@ -234,7 +234,7 @@ async function pdfProcess(file, buf, asImages) {
   }
 
   let out = '';
-  for (let p = 1; p <= doc.numPages && out.length < MAX_CHARS * 1.2; p++) {
+  for (let p = 1; p <= doc.numPages; p++) {
     const page = await doc.getPage(p);
     const tc = await page.getTextContent();
     let line = '', lastY = null;
@@ -247,7 +247,7 @@ async function pdfProcess(file, buf, asImages) {
     out += `\n--- صفحه ${p} ---\n` + line;
   }
   out = out.normalize('NFKC');
-  if (out.replace(/--- صفحه \d+ ---/g, '').trim().length >= 40) return { name: file.name, text: clip(out.trim()) };
+  if (out.replace(/--- صفحه \d+ ---/g, '').trim().length >= 40) return { name: file.name, text: out.trim(), pages: doc.numPages };
 
   const images = await render(8);
   return {
@@ -316,12 +316,77 @@ async function extractFile(file) {
 }
 
 /* ======================= ارتباط با API ======================= */
-function fullText(m, mediaSupported) {
+/* برای فایل‌های بزرگ: متن کامل خوانده می‌شود و برای هر سؤال، بخش‌های مرتبط از آن انتخاب می‌شود */
+const CTX_BUDGET = 100000;
+const REL_BUDGET = 60000;
+function faNorm(s) {
+  return String(s || '')
+    .replace(/ي/g, 'ی').replace(/ك/g, 'ک').replace(/ة/g, 'ه').replace(/[أإ]/g, 'ا')
+    .replace(/[۰-۹]/g, (d) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+    .replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+    .replace(/[‌ـ]/g, ' ')
+    .replace(/[​-‏‪-‮⁦-⁩﻿]/g, '')
+    .toLowerCase();
+}
+function chunkText(text) {
+  const parts = text.split(/\n--- صفحه (\d+) ---\n/);
+  const segs = [];
+  for (let i = 1; i < parts.length; i += 2) segs.push({ page: +parts[i], text: parts[i + 1] || '' });
+  if (!segs.length) segs.push({ page: null, text });
+  const chunks = [];
+  for (const sg of segs) {
+    let rest = sg.text;
+    while (rest.length > 2600) {
+      let cut = rest.lastIndexOf('\n', 2600);
+      if (cut < 1200) cut = 2600;
+      chunks.push({ page: sg.page, text: rest.slice(0, cut) });
+      rest = rest.slice(cut);
+    }
+    if (rest.trim()) chunks.push({ page: sg.page, text: rest });
+  }
+  return chunks;
+}
+function relevantText(f, question) {
+  const chunks = chunkText(f.text);
+  const q = faNorm(question);
+  const terms = [...new Set(q.split(/[^\p{L}\p{N}]+/u).filter((w) => w.length >= 2))];
+  const art = q.match(/ماده\s*[–—-]?\s*(\d+)/);
+  const scored = chunks.map((c, i) => {
+    const cn = faNorm(c.text);
+    let sc = 0;
+    for (const t of terms) {
+      let n = 0, j = 0;
+      while ((j = cn.indexOf(t, j)) >= 0 && n < 5) { n++; j += t.length; }
+      sc += n;
+    }
+    if (art && new RegExp('ماده\\s*[–—-]?\\s*' + art[1] + '(?![0-9])').test(cn)) sc += 100;
+    return { i, sc, c };
+  });
+  const anyHit = scored.some((x) => x.sc > 0);
+  const chosen = [];
+  let used = 0;
+  if (anyHit) {
+    const ranked = scored.filter((x) => x.sc > 0).sort((a, b) => b.sc - a.sc || a.i - b.i);
+    for (const x of ranked) {
+      if (used + x.c.text.length > REL_BUDGET) continue;
+      chosen.push(x); used += x.c.text.length;
+    }
+  } else {
+    const avg = 2600;
+    const step = Math.max(1, Math.floor(chunks.length / Math.max(1, Math.floor(CTX_BUDGET / avg))));
+    for (let i = 0; i < chunks.length && used < CTX_BUDGET; i += step) { chosen.push(scored[i]); used += scored[i].c.text.length; }
+  }
+  chosen.sort((a, b) => a.i - b.i);
+  let s = `[متن کامل این فایل${f.pages ? '، ' + f.pages + ' صفحه' : ''} و ${f.text.length} حرف است؛ بخش‌های مرتبط با سؤال از آن انتخاب شده است]\n`;
+  for (const x of chosen) s += (x.c.page ? `--- صفحه ${x.c.page} ---\n` : '') + x.c.text.trim() + '\n';
+  return s;
+}
+function fullText(m, mediaSupported, question) {
   let s = '';
   for (const f of m.files || []) {
     s += `=== فایل: ${f.name} ===\n`;
     if (f.note) s += `[${f.note}]\n`;
-    if (f.text) s += f.text + '\n';
+    if (f.text) s += (f.text.length <= CTX_BUDGET ? f.text : relevantText(f, question || '')) + '\n';
     const nImg = (f.images || []).length || f.imageCount || 0;
     if (!f.text && nImg) s += '(تصویر پیوست شده است)\n';
     if (f.media || f.hadMedia) {
@@ -347,12 +412,14 @@ function normalizeHistory(list) {
 function buildRequest(s, h) {
   const base = s.baseUrl.trim().replace(/\/+$/, '');
   h = h.map((m) => ({ ...m, files: (m.files || []).filter((f) => !f.off) }));
+  const lastUser = [...h].reverse().find((x) => x.role === 'user');
+  const question = lastUser ? lastUser.text : '';
   if (s.provider === 'openai') {
     const msgs = [];
     if (s.systemPrompt.trim()) msgs.push({ role: 'system', content: s.systemPrompt });
     for (const m of h) {
       const imgs = (m.files || []).flatMap((f) => f.images || []);
-      const t = fullText(m, false);
+      const t = fullText(m, false, question);
       if (imgs.length) {
         msgs.push({
           role: m.role,
@@ -375,7 +442,7 @@ function buildRequest(s, h) {
   if (s.provider === 'anthropic') {
     const msgs = h.map((m) => {
       const parts = (m.files || []).flatMap((f) => f.images || []).map((i) => ({ type: 'image', source: { type: 'base64', media_type: i.mime, data: i.b64 } }));
-      parts.push({ type: 'text', text: fullText(m, false) });
+      parts.push({ type: 'text', text: fullText(m, false, question) });
       return { role: m.role, content: parts };
     });
     const body = { model: s.model, max_tokens: 4096, messages: msgs, stream: true, temperature: s.temperature ?? 1 };
@@ -396,7 +463,7 @@ function buildRequest(s, h) {
   }
   // gemini
   const contents = h.map((m) => {
-    const parts = [{ text: fullText(m, true) }];
+    const parts = [{ text: fullText(m, true, question) }];
     for (const f of m.files || []) {
       for (const i of f.images || []) parts.push({ inlineData: { mimeType: i.mime, data: i.b64 } });
       if (f.media) parts.push({ inlineData: { mimeType: f.media.mime, data: f.media.b64 } });
