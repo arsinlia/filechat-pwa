@@ -188,7 +188,7 @@ function loadSettings() {
   }
   if (s && s.v === 2 && Array.isArray(s.providers)) {
     d.providers = s.providers.map((p) => ({ role: 'balanced', models: [], ...p }));
-    d.theme = s.theme || 'dark'; d.lang = s.lang || 'fa'; d.memory = s.memory !== false;
+    d.theme = (s.theme === 'light' || s.theme === 'dark') ? s.theme : 'dark'; d.lang = s.lang || 'fa'; d.memory = s.memory !== false;
     if (s.colors) {
       if (s.colors.me) d.colors.me = s.colors.me;
       if (s.colors.ai) d.colors.bg = s.colors.ai;
