@@ -43,127 +43,173 @@ const MEDIA_MIME = {
   mp4: 'video/mp4', mov: 'video/quicktime', webm: 'video/webm', '3gp': 'video/3gpp'
 };
 
-/* ======================= وضعیت و تنظیمات (پوسته ArsinLia) ======================= */
+/* ======================= وضعیت و تنظیمات — دقیقاً بر مشخصات ArsinLia 0.0.20 ======================= */
 const LANGS = {
   fa: { dir: 'rtl', name: 'فارسی' }, en: { dir: 'ltr', name: 'English' }, ar: { dir: 'rtl', name: 'العربية' }
 };
+/* برچسب‌ها: فارسی دقیقاً رشته‌های خود ArsinLia 0.0.20 است */
 const STR = {
   fa: {
-    appTitle: 'چت با فایل', chats: 'گفتگوها', newChat: 'گفتگوی جدید', settings: 'تنظیمات',
-    aiSettings: 'تنظیمات هوش مصنوعی', providers: 'ارائه دهندگان هوش مصنوعی', addProvider: 'افزودن ارائه‌دهنده',
-    appearance: 'ظاهر و رنگ', language: 'زبان', memory: 'حافظه‌ی گفتگو', memoryHint: 'مدل از پیام‌های قبلی همین گفتگو باخبر باشد',
-    about: 'درباره', back: 'بازگشت', theme: 'تم', themeSystem: 'سیستم', themeLight: 'روشن', themeDark: 'تیره',
-    colorMe: 'رنگ حباب پیام‌های من', colorAi: 'رنگ حباب پاسخ‌ها', colorAccent: 'رنگ اصلی (دکمه‌ها)', resetColors: 'بازگردانی رنگ‌های پیش‌فرض',
-    systemPrompt: 'پرامپت سیستمی', temperature: 'دمای پاسخ (خلاقیت)', pdfImg: 'ارسال PDF به صورت تصویر (فقط ۱۰ صفحه‌ی اول — فقط برای PDF اسکن‌شده؛ PDF متنی را با این گزینه نفرستید)',
-    save: 'ذخیره', cancel: 'انصراف', close: 'بستن', del: 'حذف', edit: 'ویرایش',
-    pName: 'نام ارائه‌دهنده', pType: 'نوع API', pBase: 'Base URL', pKey: 'API Key', showKey: 'نمایش کلید', pModel: 'نام مدل',
-    loadModels: 'بارگزاری مدلها', loadingModels: 'در حال بارگزاری مدلها...', needBaseKey: 'اول Base URL و API Key را وارد کنید.',
-    noModels: 'پرووایدر هیچ مدلی برنگرداند.', modelsLoaded: 'مدل بارگزاری شد. روی مدل موردنظر بزنید، بعد «ذخیره» را بزنید.',
-    connFail: 'اتصال ممکن نشد: ', fillAll: 'نام، آدرس، کلید و مدل را کامل کنید', saved: 'ذخیره شد',
-    placeholder: 'سؤال درباره‌ی فایل‌ها...', send: 'ارسال', stop: 'توقف', retry: 'تلاش مجدد', copy: 'کپی', copied: 'کپی شد', copyFail: 'کپی ممکن نشد',
-    sources: 'منابع: ', readingFile: 'در حال خواندن فایل...', untitled: 'گفتگوی بدون عنوان',
-    searchModels: 'جستجوی مدل...', chooseModel: 'انتخاب مدل', noProvider: 'هنوز ارائه‌دهنده‌ای با کلید ثبت نشده است — از تنظیمات اضافه کنید.',
-    keyFirst: 'ابتدا از تنظیمات یک ارائه‌دهنده با کلید API اضافه کنید', emptyAnswer: '(پاسخ خالی دریافت شد)',
-    hintTitle: 'فایل‌هایتان را بدهید، سؤال بپرسید', hintBody: 'با دکمه‌ی گیره، کشیدن‌ورها کردن یا چسباندن، فایل اضافه کنید:',
-    hintFormats: 'PDF کامل خوانده می‌شود؛ Word (docx)، Excel، PowerPoint، متن، تصویر و صوت/ویدیو (Gemini) هم پشتیبانی می‌شوند.',
-    qSummary: 'خلاصه‌ی فایل‌ها', qKeys: 'نکات کلیدی', qIssues: 'بررسی ایرادها',
+    settings: 'تنظیمات', aiHub: '⚙️ تنظیمات هوش مصنوعی', providers: 'ارائه دهندگان هوش مصنوعی',
+    colorsThemes: '🎨 رنگ و تم‌ها', subTheme: 'تم', themeLight: 'روشن', themeDark: 'تیره', themeSystem: 'سیستم',
+    userBubble: 'رنگ حباب پیام‌های شما', aiBubble: 'رنگ پیام هوش مصنوعی', chatBg: 'رنگ پس‌زمینه‌ی گفتگو',
+    titleOptionsColor: 'رنگ عناوین و گزینه‌ها', followSystem: '🌓 پیروی از تم سیستم',
+    customHex: 'کد هگز دلخواه (مثل ‎#2E7D8A‎)', invalidHex: 'کد هگز نامعتبر است',
+    memorySection: '🧠 حافظه‌ی بلندمدت', memoryInChat: 'استفاده از حافظه در گفتگو',
+    memoryAuto: 'استخراج خودکار با AI', memoryAutoHint: 'وقتی روشن باشد، بعد از چند پیام، نکات مهم درباره‌ی شما به‌صورت خودکار در حافظه ذخیره می‌شود.',
+    languageSection: '🌐 زبان', crashSection: 'گزارش کرش', crashShow: 'نمایش آخرین گزارش کرش',
+    crashEmpty: 'کرشی ثبت نشده است.', crashCopy: 'کپی', close: 'بستن', back: 'بازگشت',
+    addProvider: 'افزودن ارائه‌دهنده‌ی تازه', editProvider: 'ویرایش ارائه‌دهنده',
+    pName: 'نام ارائه‌دهنده (مثلاً: سرور خانگی)', pBase: 'Base URL (قابل ویرایش)', pBasePh: 'https://api.openai.com/v1',
+    pKey: 'کلید API (رمزنگاری‌شده ذخیره می‌شود)', pModel: 'نام مدل متنی', pModelPh: 'gpt-4o-mini',
+    loadModels: 'بارگذاری مدل‌ها', loadKeyHint: 'ابتدا کلید API را وارد کنید',
+    modelRole: 'راهبرد پاسخگویی مدل', roleFast: 'سریع', roleBalanced: 'متعادل', roleQuality: 'دقیق',
+    saveAi: '💾 ذخیره‌ی تنظیمات هوش مصنوعی', cancel: 'انصراف', del: 'حذف', save: 'ذخیره',
+    provEmpty: 'هنوز ارائه‌دهنده‌ای ذخیره نشده است.', delProvTitle: 'حذف ارائه‌دهنده',
+    delProvMsg: 'حذف شود؟ کلید ذخیره‌شده‌ی آن هم پاک می‌شود.',
+    modelSelectTitle: 'انتخاب مدل', modelSearch: 'جستجوی مدل…', modelLoading: 'در حال بارگذاری مدل‌ها…',
+    modelNoResults: 'مدلی یافت نشد', connFail: 'اتصال ممکن نشد: ', fillAll: 'نام، آدرس پایه و مدل را کامل کنید', saved: 'ذخیره شد',
+    menuSettings: 'تنظیمات', menuAbout: 'درباره‌ی FileChat', menuHistory: 'تاریخچه گفتگوها',
+    newChat: 'گفتگوی جدید', deleteChat: 'حذف گفتگو', delChatTitle: 'حذف گفتگو',
+    delChatMsg: 'این گفتگو و همه‌ی پیام‌هایش حذف شود؟', rename: 'تغییر نام', renameTitle: 'تغییر نام گفتگو',
+    renameLabel: 'نام جدید گفتگو', shareThread: 'اشتراک گفتگو',
+    emptyList: 'هنوز گفت‌وگویی نداری. یکی شروع کن!', greeting: 'سلام! من FileChat هستم',
+    inputHint: 'پیامت رو بنویس…', chooseModel: 'انتخاب مدل', modelSearchHint: 'جستجوی مدل…',
+    modelSearchEmpty: 'مدلی با این نام پیدا نشد', modelFetchFailed: 'بارگذاری مدل‌های این ارائه‌دهنده ناموفق بود', retry: 'تلاش مجدد',
+    sources: 'منابع', copy: 'کپی', copied: 'کپی شد', copyFail: 'کپی ممکن نشد', resend: 'ارسال مجدد',
+    attach: 'پیوست فایل', send: 'ارسال', stopGen: 'توقف تولید', untitled: 'گفتگوی بدون عنوان',
+    readingFile: 'در حال خواندن فایل...', readFail: 'خواندن فایل ناموفق بود', emptyAnswer: '(پاسخ خالی دریافت شد)',
+    keyFirst: 'ابتدا از تنظیمات یک ارائه‌دهنده اضافه کنید', colorDone: 'انجام شد؛ رنگ تغییر کرد.',
     viewEnable: 'فعال‌کردن در پاسخ‌ها', viewDisable: 'غیرفعال‌کردن در پاسخ‌ها', viewNone: '(متن قابل نمایشی برای این فایل در حافظه نیست)',
-    clearData: 'پاک کردن همه‌ی داده‌ها', clearConfirm: 'کلیدها، تنظیمات و همه‌ی گفتگوها پاک شود؟',
-    delChatConfirm: 'این گفتگو پاک شود؟', delProvConfirm: 'این ارائه‌دهنده پاک شود؟', newChatConfirm: 'گفتگوی جدید شروع شود؟',
-    aboutText: 'چت با فایل‌ها: PDF و اسناد را کامل می‌خواند و برای هر سؤال، بخش مرتبط از متن کامل را پیدا می‌کند و پاسخ را بر همان اساس می‌دهد. به هر ارائه‌دهنده‌ای با نشانی و کلید خودتان وصل می‌شود؛ کلید فقط در حافظه‌ی همین دستگاه می‌ماند.',
-    version: 'نسخه ۵٫۰', install: 'نصب برنامه', attach: 'پیوست فایل', fileOff: ' (غیرفعال)', readFail: 'خواندن فایل ناموفق بود',
-    colorDone: 'انجام شد؛ رنگ تغییر کرد.', noChats: 'هنوز گفتگویی نیست'
+    fileOff: ' (غیرفعال)', install: 'نصب برنامه',
+    aboutTagline: 'چت با فایل‌های شما', aboutVersion: 'نسخه', aboutVersionVal: '۶٫۰',
+    aboutText: 'FileChat با فایل‌های شما گفتگو می‌کند: PDF و اسناد را کامل می‌خواند و برای هر سؤال، بخش مرتبط از متن کامل را پیدا می‌کند و بر همان اساس پاسخ می‌دهد. به ارائه‌دهنده‌هایی که خودتان با نشانی و کلید اضافه می‌کنید وصل می‌شود؛ کلید فقط در حافظه‌ی همین دستگاه می‌ماند.'
   },
   en: {
-    appTitle: 'FileChat', chats: 'Chats', newChat: 'New chat', settings: 'Settings',
-    aiSettings: 'AI settings', providers: 'AI providers', addProvider: 'Add provider',
-    appearance: 'Appearance & colors', language: 'Language', memory: 'Conversation memory', memoryHint: 'Let the model see earlier messages of this chat',
-    about: 'About', back: 'Back', theme: 'Theme', themeSystem: 'System', themeLight: 'Light', themeDark: 'Dark',
-    colorMe: 'My message bubble color', colorAi: 'Reply bubble color', colorAccent: 'Accent color (buttons)', resetColors: 'Reset default colors',
-    systemPrompt: 'System prompt', temperature: 'Temperature', pdfImg: 'Send PDF as images (first 10 pages only — scanned PDFs only)',
-    save: 'Save', cancel: 'Cancel', close: 'Close', del: 'Delete', edit: 'Edit',
-    pName: 'Provider name', pType: 'API type', pBase: 'Base URL', pKey: 'API Key', showKey: 'Show key', pModel: 'Model name',
-    loadModels: 'Load models', loadingModels: 'Loading models...', needBaseKey: 'Enter Base URL and API Key first.',
-    noModels: 'The provider returned no models.', modelsLoaded: 'models loaded. Tap a model, then Save.',
-    connFail: 'Connection failed: ', fillAll: 'Complete name, URL, key and model', saved: 'Saved',
-    placeholder: 'Ask about your files...', send: 'Send', stop: 'Stop', retry: 'Retry', copy: 'Copy', copied: 'Copied', copyFail: 'Copy failed',
-    sources: 'Sources: ', readingFile: 'Reading file...', untitled: 'Untitled chat',
-    searchModels: 'Search models...', chooseModel: 'Choose model', noProvider: 'No provider with a key yet — add one in Settings.',
-    keyFirst: 'First add a provider with an API key in Settings', emptyAnswer: '(empty reply)',
-    hintTitle: 'Give your files, ask questions', hintBody: 'Add files with the clip button, drag & drop, or paste:',
-    hintFormats: 'PDFs are read in full; Word (docx), Excel, PowerPoint, text, images and audio/video (Gemini) are supported.',
-    qSummary: 'Summarize files', qKeys: 'Key points', qIssues: 'Review issues',
+    settings: 'Settings', aiHub: '⚙️ AI settings', providers: 'AI providers',
+    colorsThemes: '🎨 Colors & themes', subTheme: 'Theme', themeLight: 'Light', themeDark: 'Dark', themeSystem: 'System',
+    userBubble: 'Your message bubble color', aiBubble: 'AI message color', chatBg: 'Chat background color',
+    titleOptionsColor: 'Titles & options color', followSystem: '🌓 Follow system theme',
+    customHex: 'Custom hex code (e.g. #2E7D8A)', invalidHex: 'Invalid hex code',
+    memorySection: '🧠 Long-term memory', memoryInChat: 'Use memory in chat',
+    memoryAuto: 'Automatic extraction with AI', memoryAutoHint: 'When on, after a few messages, key facts about you are stored automatically.',
+    languageSection: '🌐 Language', crashSection: 'Crash report', crashShow: 'Show latest crash report',
+    crashEmpty: 'No crash recorded.', crashCopy: 'Copy', close: 'Close', back: 'Back',
+    addProvider: 'Add new provider', editProvider: 'Edit provider',
+    pName: 'Provider name (e.g. Home server)', pBase: 'Base URL (editable)', pBasePh: 'https://api.openai.com/v1',
+    pKey: 'API key (stored encrypted)', pModel: 'Text model name', pModelPh: 'gpt-4o-mini',
+    loadModels: 'Load models', loadKeyHint: 'Enter the API key first',
+    modelRole: 'Model response strategy', roleFast: 'Fast', roleBalanced: 'Balanced', roleQuality: 'Precise',
+    saveAi: '💾 Save AI settings', cancel: 'Cancel', del: 'Delete', save: 'Save',
+    provEmpty: 'No provider saved yet.', delProvTitle: 'Delete provider',
+    delProvMsg: 'Delete? Its saved key will be removed too.',
+    modelSelectTitle: 'Select model', modelSearch: 'Search models…', modelLoading: 'Loading models…',
+    modelNoResults: 'No model found', connFail: 'Connection failed: ', fillAll: 'Complete name, base URL and model', saved: 'Saved',
+    menuSettings: 'Settings', menuAbout: 'About FileChat', menuHistory: 'Chat history',
+    newChat: 'New chat', deleteChat: 'Delete chat', delChatTitle: 'Delete chat',
+    delChatMsg: 'Delete this chat and all its messages?', rename: 'Rename', renameTitle: 'Rename chat',
+    renameLabel: 'New chat name', shareThread: 'Share chat',
+    emptyList: 'No chats yet. Start one!', greeting: 'Hi! I am FileChat',
+    inputHint: 'Write your message…', chooseModel: 'Choose model', modelSearchHint: 'Search models…',
+    modelSearchEmpty: 'No model with this name', modelFetchFailed: 'Loading this provider’s models failed', retry: 'Retry',
+    sources: 'Sources', copy: 'Copy', copied: 'Copied', copyFail: 'Copy failed', resend: 'Resend',
+    attach: 'Attach file', send: 'Send', stopGen: 'Stop generating', untitled: 'Untitled chat',
+    readingFile: 'Reading file...', readFail: 'Could not read the file', emptyAnswer: '(empty reply)',
+    keyFirst: 'First add a provider in Settings', colorDone: 'Done; color changed.',
     viewEnable: 'Enable in answers', viewDisable: 'Disable in answers', viewNone: '(no displayable text stored for this file)',
-    clearData: 'Erase all data', clearConfirm: 'Erase keys, settings and all chats?',
-    delChatConfirm: 'Delete this chat?', delProvConfirm: 'Delete this provider?', newChatConfirm: 'Start a new chat?',
-    aboutText: 'Chat with your files: reads PDFs and documents in full and, for each question, finds the relevant part of the complete text and answers from it. Connects to any provider with your own URL and key; keys stay only on this device.',
-    version: 'Version 5.0', install: 'Install app', attach: 'Attach file', fileOff: ' (off)', readFail: 'Could not read the file',
-    colorDone: 'Done; color changed.', noChats: 'No chats yet'
+    fileOff: ' (off)', install: 'Install app',
+    aboutTagline: 'Chat with your files', aboutVersion: 'Version', aboutVersionVal: '6.0',
+    aboutText: 'FileChat chats with your files: it reads PDFs and documents in full and, for each question, finds the relevant part of the complete text and answers from it. It connects to providers you add with your own URL and key; keys stay only on this device.'
   },
   ar: {
-    appTitle: 'الدردشة مع الملف', chats: 'المحادثات', newChat: 'محادثة جديدة', settings: 'الإعدادات',
-    aiSettings: 'إعدادات الذكاء الاصطناعي', providers: 'مقدمو الذكاء الاصطناعي', addProvider: 'إضافة مقدم',
-    appearance: 'المظهر والألوان', language: 'اللغة', memory: 'ذاكرة المحادثة', memoryHint: 'اطلاع النموذج على رسائل هذه المحادثة السابقة',
-    about: 'حول', back: 'رجوع', theme: 'السمة', themeSystem: 'النظام', themeLight: 'فاتح', themeDark: 'داكن',
-    colorMe: 'لون فقاعة رسائلي', colorAi: 'لون فقاعة الردود', colorAccent: 'اللون الرئيسي (الأزرار)', resetColors: 'استعادة الألوان الافتراضية',
-    systemPrompt: 'موجه النظام', temperature: 'حرارة الرد', pdfImg: 'إرسال PDF كصور (أول ١٠ صفحات فقط — للمسح الضوئي فقط)',
-    save: 'حفظ', cancel: 'إلغاء', close: 'إغلاق', del: 'حذف', edit: 'تعديل',
-    pName: 'اسم المقدم', pType: 'نوع API', pBase: 'Base URL', pKey: 'API Key', showKey: 'إظهار المفتاح', pModel: 'اسم النموذج',
-    loadModels: 'تحميل النماذج', loadingModels: 'جار تحميل النماذج...', needBaseKey: 'أدخل Base URL و API Key أولا.',
-    noModels: 'لم يرجع المقدم أي نموذج.', modelsLoaded: 'نموذجا تم تحميلها. اضغط نموذجا ثم احفظ.',
-    connFail: 'فشل الاتصال: ', fillAll: 'أكمل الاسم والعنوان والمفتاح والنموذج', saved: 'تم الحفظ',
-    placeholder: 'اسأل عن ملفاتك...', send: 'إرسال', stop: 'إيقاف', retry: 'إعادة المحاولة', copy: 'نسخ', copied: 'تم النسخ', copyFail: 'فشل النسخ',
-    sources: 'المصادر: ', readingFile: 'جار قراءة الملف...', untitled: 'محادثة بلا عنوان',
-    searchModels: 'بحث النماذج...', chooseModel: 'اختيار النموذج', noProvider: 'لا مقدم بمفتاح بعد — أضفه من الإعدادات.',
-    keyFirst: 'أضف أولا مقدما بمفتاح API من الإعدادات', emptyAnswer: '(رد فارغ)',
-    hintTitle: 'أعط ملفاتك واسأل', hintBody: 'أضف الملفات بزر المشبك أو السحب أو اللصق:',
-    hintFormats: 'تقرأ ملفات PDF كاملة؛ وتدعم Word و Excel و PowerPoint والنصوص والصور والصوت/الفيديو (Gemini).',
-    qSummary: 'تلخيص الملفات', qKeys: 'النقاط الرئيسية', qIssues: 'مراجعة الأخطاء',
+    settings: 'الإعدادات', aiHub: '⚙️ إعدادات الذكاء الاصطناعي', providers: 'مقدمو الذكاء الاصطناعي',
+    colorsThemes: '🎨 الألوان والسمات', subTheme: 'السمة', themeLight: 'فاتح', themeDark: 'داكن', themeSystem: 'النظام',
+    userBubble: 'لون فقاعة رسائلك', aiBubble: 'لون رسالة الذكاء الاصطناعي', chatBg: 'لون خلفية المحادثة',
+    titleOptionsColor: 'لون العناوين والخيارات', followSystem: '🌓 اتباع سمة النظام',
+    customHex: 'كود سداسي مخصص (مثل #2E7D8A)', invalidHex: 'كود سداسي غير صالح',
+    memorySection: '🧠 الذاكرة طويلة الأمد', memoryInChat: 'استخدام الذاكرة في المحادثة',
+    memoryAuto: 'الاستخراج التلقائي بالذكاء الاصطناعي', memoryAutoHint: 'عند التشغيل، تحفظ النقاط المهمة عنك تلقائيا بعد بضع رسائل.',
+    languageSection: '🌐 اللغة', crashSection: 'تقرير الأعطال', crashShow: 'عرض آخر تقرير عطل',
+    crashEmpty: 'لا عطل مسجل.', crashCopy: 'نسخ', close: 'إغلاق', back: 'رجوع',
+    addProvider: 'إضافة مقدم جديد', editProvider: 'تعديل المقدم',
+    pName: 'اسم المقدم (مثلا: خادم منزلي)', pBase: 'Base URL (قابل للتحرير)', pBasePh: 'https://api.openai.com/v1',
+    pKey: 'مفتاح API (يحفظ مشفرا)', pModel: 'اسم النموذج النصي', pModelPh: 'gpt-4o-mini',
+    loadModels: 'تحميل النماذج', loadKeyHint: 'أدخل مفتاح API أولا',
+    modelRole: 'استراتيجية رد النموذج', roleFast: 'سريع', roleBalanced: 'متوازن', roleQuality: 'دقيق',
+    saveAi: '💾 حفظ إعدادات الذكاء الاصطناعي', cancel: 'إلغاء', del: 'حذف', save: 'حفظ',
+    provEmpty: 'لا مقدم محفوظ بعد.', delProvTitle: 'حذف المقدم',
+    delProvMsg: 'يحذف؟ سيحذف مفتاحه المحفوظ أيضا.',
+    modelSelectTitle: 'اختيار النموذج', modelSearch: 'بحث النماذج…', modelLoading: 'جار تحميل النماذج…',
+    modelNoResults: 'لم يعثر على نموذج', connFail: 'فشل الاتصال: ', fillAll: 'أكمل الاسم والعنوان والنموذج', saved: 'تم الحفظ',
+    menuSettings: 'الإعدادات', menuAbout: 'حول FileChat', menuHistory: 'سجل المحادثات',
+    newChat: 'محادثة جديدة', deleteChat: 'حذف المحادثة', delChatTitle: 'حذف المحادثة',
+    delChatMsg: 'حذف هذه المحادثة وكل رسائلها؟', rename: 'إعادة التسمية', renameTitle: 'إعادة تسمية المحادثة',
+    renameLabel: 'اسم المحادثة الجديد', shareThread: 'مشاركة المحادثة',
+    emptyList: 'لا محادثات بعد. ابدأ واحدة!', greeting: 'مرحبا! أنا FileChat',
+    inputHint: 'اكتب رسالتك…', chooseModel: 'اختيار النموذج', modelSearchHint: 'بحث النماذج…',
+    modelSearchEmpty: 'لا نموذج بهذا الاسم', modelFetchFailed: 'فشل تحميل نماذج هذا المقدم', retry: 'إعادة المحاولة',
+    sources: 'المصادر', copy: 'نسخ', copied: 'تم النسخ', copyFail: 'فشل النسخ', resend: 'إعادة الإرسال',
+    attach: 'إرفاق ملف', send: 'إرسال', stopGen: 'إيقاف التوليد', untitled: 'محادثة بلا عنوان',
+    readingFile: 'جار قراءة الملف...', readFail: 'تعذرت قراءة الملف', emptyAnswer: '(رد فارغ)',
+    keyFirst: 'أضف مقدما أولا من الإعدادات', colorDone: 'تم؛ تغير اللون.',
     viewEnable: 'التفعيل في الردود', viewDisable: 'التعطيل في الردود', viewNone: '(لا نص محفوظ لهذا الملف)',
-    clearData: 'مسح كل البيانات', clearConfirm: 'مسح المفاتيح والإعدادات وكل المحادثات؟',
-    delChatConfirm: 'حذف هذه المحادثة؟', delProvConfirm: 'حذف هذا المقدم؟', newChatConfirm: 'بدء محادثة جديدة؟',
-    aboutText: 'الدردشة مع ملفاتك: يقرأ ملفات PDF والمستندات كاملة ويجد لكل سؤال الجزء المناسب من النص الكامل ويجيب بناء عليه. يتصل بأي مقدم بعنوانك ومفتاحك؛ تبقى المفاتيح على هذا الجهاز فقط.',
-    version: 'الإصدار ٥٫٠', install: 'تثبيت التطبيق', attach: 'إرفاق ملف', fileOff: ' (معطل)', readFail: 'تعذرت قراءة الملف',
-    colorDone: 'تم؛ تغير اللون.', noChats: 'لا محادثات بعد'
+    fileOff: ' (معطل)', install: 'تثبيت التطبيق',
+    aboutTagline: 'الدردشة مع ملفاتك', aboutVersion: 'الإصدار', aboutVersionVal: '٦٫٠',
+    aboutText: 'FileChat يدردش مع ملفاتك: يقرأ ملفات PDF والمستندات كاملة ويجد لكل سؤال الجزء المناسب من النص الكامل ويجيب بناء عليه. يتصل بالمقدمين الذين تضيفهم بعنوانك ومفتاحك؛ تبقى المفاتيح على هذا الجهاز فقط.'
   }
 };
 function t(k) { const L = STR[settings.lang] || STR.fa; return L[k] || STR.fa[k] || k; }
 
 let uidC = Date.now() % 100000;
 function uid() { return 'x' + (++uidC).toString(36) + Date.now().toString(36).slice(-3); }
+function t0(type) { return type === 'anthropic' ? 'Anthropic' : type === 'gemini' ? 'Gemini' : 'OpenAI'; }
+/* تشخیص خودکار پروتکل از روی نشانی — مثل ArsinLia، پشت صحنه و بدون فیلد در فرم */
+function detectType(baseUrl, fallback) {
+  const u = String(baseUrl || '').toLowerCase();
+  if (u.includes('anthropic') || u.includes('claude')) return 'anthropic';
+  if (u.includes('generativelanguage.googleapis') || u.includes('gemini')) return 'gemini';
+  return fallback && PROVIDERS[fallback] ? fallback : 'openai';
+}
 
+const ROLE_TEMP = { fast: 0.3, balanced: 0.7, quality: 1.0 };
 function defaultSettings() {
   return {
-    v: 2, providers: [], systemPrompt: DEFAULT_PROMPT, pdfAsImages: false, temperature: 1,
-    theme: 'system', lang: 'fa', memory: true,
-    colors: { me: '', ai: '', accent: '' }
+    v: 3, providers: [], systemPrompt: DEFAULT_PROMPT, pdfAsImages: false,
+    theme: 'dark', lang: 'fa', memory: true, memoryAuto: false,
+    colors: { me: '#2E7D32', ai: '#2A2A4A', bg: '#000000', title: '#FFFFFF' }
   };
 }
 function loadSettings() {
   let s = null;
   try { s = JSON.parse(localStorage.getItem('fc.settings') || 'null'); } catch (e) { /* ignore */ }
   const d = defaultSettings();
-  if (s && s.v === 2 && Array.isArray(s.providers)) return Object.assign(d, s, { colors: Object.assign(d.colors, s.colors || {}) });
+  if (s && s.v === 3 && Array.isArray(s.providers)) {
+    return Object.assign(d, s, { colors: Object.assign(d.colors, s.colors || {}) });
+  }
+  if (s && s.v === 2 && Array.isArray(s.providers)) {
+    d.providers = s.providers.map((p) => ({ role: 'balanced', models: [], ...p }));
+    d.theme = s.theme || 'dark'; d.lang = s.lang || 'fa'; d.memory = s.memory !== false;
+    if (s.colors) {
+      if (s.colors.me) d.colors.me = s.colors.me;
+      if (s.colors.ai) d.colors.bg = s.colors.ai;
+    }
+    return d;
+  }
   if (s && PROVIDERS[s.provider]) {
-    // مهاجرت از نسخه‌ی تک‌پرووایدر
     d.providers = [{
       id: uid(), name: t0(s.provider), type: s.provider,
       baseUrl: s.baseUrl || PROVIDERS[s.provider].base, apiKey: s.apiKey || '',
-      model: s.model || PROVIDERS[s.provider].model, models: []
+      model: s.model || PROVIDERS[s.provider].model, models: [], role: 'balanced'
     }];
     d.systemPrompt = s.systemPrompt || d.systemPrompt;
-    d.pdfAsImages = !!s.pdfAsImages; d.temperature = s.temperature ?? 1;
     return d;
   }
   return d;
 }
-function t0(type) { return type === 'anthropic' ? 'Anthropic' : type === 'gemini' ? 'Gemini' : 'OpenAI'; }
 function saveSettings() { try { localStorage.setItem('fc.settings', JSON.stringify(settings)); } catch (e) { /* ignore */ } }
 
 /* گفتگوها (رشته‌ها) */
-function newThread() {
-  return { id: uid(), title: '', sel: null, messages: [] };
-}
+function newThread() { return { id: uid(), title: '', sel: null, messages: [] }; }
 function slimThread(th, withText) {
   return {
     id: th.id, title: th.title, sel: th.sel,
@@ -185,7 +231,7 @@ function loadThreads() {
   } catch (e) { /* ignore */ }
   try {
     const old = JSON.parse(localStorage.getItem('fc.chat') || 'null');
-    if (Array.isArray(old) && old.length) { const th = newThread(); th.messages = old; th.title = ''; return [th]; }
+    if (Array.isArray(old) && old.length) { const th = newThread(); th.messages = old; return [th]; }
   } catch (e) { /* ignore */ }
   return [newThread()];
 }
@@ -209,9 +255,8 @@ let busy = false;
 let abortCtl = null;
 let lastError = null;
 
-/* انتخاب مدل جاری */
 function providerById(id) { return settings.providers.find((p) => p.id === id) || null; }
-function activeProviders() { return settings.providers.filter((p) => p.apiKey && p.apiKey.trim()); }
+function activeProviders() { return settings.providers.slice(); }
 function currentSel() {
   const th = cur();
   if (th.sel && providerById(th.sel.providerId)) return th.sel;
@@ -226,29 +271,90 @@ function effSettings() {
   const p = providerById(sel.providerId);
   if (!p) return null;
   return {
-    provider: p.type, baseUrl: p.baseUrl, apiKey: p.apiKey, model: sel.model || p.model,
-    systemPrompt: settings.systemPrompt, temperature: settings.temperature
+    provider: detectType(p.baseUrl, p.type), baseUrl: p.baseUrl, apiKey: p.apiKey || '',
+    model: sel.model || p.model, systemPrompt: settings.systemPrompt,
+    temperature: ROLE_TEMP[p.role] ?? 0.7
   };
 }
 
-/* ظاهر: تم و رنگ‌ها */
-function lum(hex) {
-  const c = hex.replace('#', '');
-  if (c.length < 6) return 1;
-  const r = parseInt(c.slice(0, 2), 16), g = parseInt(c.slice(2, 4), 16), b = parseInt(c.slice(4, 6), 16);
-  return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+/* ======= رنگ: دقیقاً الگوریتم‌های تم ArsinLia ======= */
+function parseHex(hex) {
+  const h = String(hex || '').trim().replace(/^#/, '');
+  if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+  return [parseInt(h.slice(0, 2), 16) / 255, parseInt(h.slice(2, 4), 16) / 255, parseInt(h.slice(4, 6), 16) / 255];
+}
+function relLum(rgb) {
+  const ch = (v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  return 0.2126 * ch(rgb[0]) + 0.7152 * ch(rgb[1]) + 0.0722 * ch(rgb[2]);
+}
+function contrast(fg, bg) {
+  const l1 = relLum(fg) + 0.05, l2 = relLum(bg) + 0.05;
+  return Math.max(l1, l2) / Math.min(l1, l2);
+}
+function toHex(rgb) { return '#' + rgb.map((v) => Math.round(Math.max(0, Math.min(1, v)) * 255).toString(16).padStart(2, '0')).join(''); }
+/* محافظ خواناییِ حفظ‌کننده‌ی فام — همان nudgeReadable آرسین‌لیا (آستانه ۳) */
+function nudgeReadable(fgHex, bgHex, minRatio) {
+  minRatio = minRatio || 3.0;
+  const fg = parseHex(fgHex), bg = parseHex(bgHex);
+  if (!fg || !bg) return fgHex;
+  if (contrast(fg, bg) >= minRatio) return fgHex;
+  const target = relLum(bg) < 0.4 ? [1, 1, 1] : [0, 0, 0];
+  let c = fg.slice();
+  for (let i = 0; i < 32; i++) {
+    c = c.map((v, j) => v + (target[j] - v) * 0.18);
+    if (contrast(c, bg) >= minRatio) return toHex(c);
+  }
+  return contrast([1, 1, 1], bg) >= contrast([0, 0, 0], bg) ? '#ffffff' : '#000000';
+}
+function ensureReadable(fgHex, bgHex) {
+  const fg = parseHex(fgHex), bg = parseHex(bgHex);
+  if (!fg || !bg) return fgHex;
+  if (contrast(fg, bg) >= 4.5) return fgHex;
+  return contrast([1, 1, 1], bg) >= contrast([0, 0, 0], bg) ? '#ffffff' : '#000000';
+}
+function onAccent(hex) {
+  const rgb = parseHex(hex); if (!rgb) return '#ffffff';
+  return contrast([1, 1, 1], rgb) >= contrast([0, 0, 0], rgb) ? '#ffffff' : '#000000';
+}
+
+/* طرح رنگ فعال بر اساس تم — همان سه طرح ArsinLia */
+function scheme() {
+  const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (settings.theme === 'light' || (settings.theme === 'system' && !sysDark)) {
+    return { name: 'light', bg: '#FAF6ED', surface: '#FFFFFF', surfaceVariant: '#F1E7C8', onSurface: '#1B1B2E', onSurfaceVariant: '#5B5240', primaryContainer: '#F0E3BC', onPrimaryContainer: '#3A2C0E', error: '#D33F3F', outline: '#c9c2ab' };
+  }
+  if (settings.theme === 'system') {
+    return { name: 'sysdark', bg: '#0B0B18', surface: '#171730', surfaceVariant: '#20203C', onSurface: '#F5F2EA', onSurfaceVariant: '#CFC0A0', primaryContainer: '#4A3A17', onPrimaryContainer: '#F3E5C0', error: '#FF6B6B', outline: '#3d3d5c' };
+  }
+  return { name: 'dark', bg: '#000000', surface: '#000000', surfaceVariant: '#232323', onSurface: '#F5F5F5', onSurfaceVariant: '#BDBDBD', primaryContainer: '#4A3A17', onPrimaryContainer: '#F3E5C0', error: '#FF6B6B', outline: '#3a3a3a' };
+}
+function chatBgHex() {
+  const b = settings.colors.bg;
+  return (!b || b === 'system') ? scheme().bg : b;
 }
 function applyAppearance() {
   const root = document.documentElement;
-  let dark = settings.theme === 'dark' || (settings.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  root.dataset.theme = dark ? 'dark' : 'light';
-  const cs = settings.colors || {};
-  if (cs.me) { root.style.setProperty('--me', cs.me); root.style.setProperty('--on-me', lum(cs.me) > 0.6 ? '#1b1d2a' : '#ffffff'); }
-  else { root.style.removeProperty('--me'); root.style.removeProperty('--on-me'); }
-  if (cs.ai) { root.style.setProperty('--ai-bg', cs.ai); root.style.setProperty('--on-ai', lum(cs.ai) > 0.6 ? '#1b1d2a' : '#f2f3fa'); }
-  else { root.style.removeProperty('--ai-bg'); root.style.removeProperty('--on-ai'); }
-  if (cs.accent) root.style.setProperty('--primary', cs.accent);
-  else root.style.removeProperty('--primary');
+  const sc = scheme();
+  root.dataset.theme = sc.name === 'light' ? 'light' : 'dark';
+  const set = (k, v) => root.style.setProperty(k, v);
+  set('--bg', sc.bg); set('--surface', sc.surface); set('--surface-variant', sc.surfaceVariant);
+  set('--on-surface', sc.onSurface); set('--on-surface-variant', sc.onSurfaceVariant);
+  set('--primary-container', sc.primaryContainer); set('--on-primary-container', sc.onPrimaryContainer);
+  set('--error', sc.error); set('--outline', sc.outline);
+  set('--code', sc.name === 'light' ? '#F1E7C8' : sc.surfaceVariant);
+  // لهجه‌ی پیش‌فرض = رنگ پیام کاربر (قانون 1.0.34 آرسین‌لیا)؛ در تم روشن فقط به‌اندازه‌ی خوانایی اصلاح می‌شود
+  const accent = sc.name === 'light' ? nudgeReadable(settings.colors.me, sc.bg) : settings.colors.me;
+  set('--primary', accent); set('--on-primary', onAccent(parseHex(accent) ? accent : settings.colors.me));
+  const cbg = chatBgHex();
+  set('--chat-bg', cbg);
+  set('--ai-text', nudgeReadable(settings.colors.ai, cbg));
+  set('--me-bg', settings.colors.me);
+  set('--on-me', ensureReadable(relLum(parseHex(settings.colors.me) || [0, 0, 0]) > 0.5 ? '#000000' : '#ffffff', settings.colors.me));
+  set('--send-tint', nudgeReadable(settings.colors.me, cbg));
+  set('--title', settings.colors.title);
+  set('--title-on-bg', nudgeReadable(settings.colors.title, sc.bg));
+  set('--title-on-chat', nudgeReadable(settings.colors.title, cbg));
+  set('--title-on-surface', nudgeReadable(settings.colors.title, sc.surface));
 }
 function applyLang() {
   const L = LANGS[settings.lang] || LANGS.fa;
@@ -706,9 +812,26 @@ async function callModel(history, onDelta, signal, eff) {
   }
 }
 
-/* ======================= رابط کاربری: گفتگو ======================= */
+/* ======================= رابط کاربری: گفتگو (مشخصات دقیق ArsinLia) ======================= */
 const chatEl = $('#chat'), inputEl = $('#input'), chipsEl = $('#chips'), errEl = $('#errbar');
 const btnSend = $('#btnSend'), btnStop = $('#btnStop');
+
+/* دیالوگ تأیید عمومی به سبک AlertDialog */
+let confirmRes = null;
+function askConfirm(title, msg, okLabel) {
+  return new Promise((res) => {
+    confirmRes = res;
+    $('#cfTitle').textContent = title;
+    $('#cfText').textContent = msg;
+    $('#cfOk').textContent = okLabel;
+    $('#cfCancel').textContent = t('cancel');
+    const d = $('#confirmDlg');
+    if (!d.open) d.showModal();
+  });
+}
+$('#cfOk').onclick = () => { $('#confirmDlg').close(); if (confirmRes) confirmRes(true); };
+$('#cfCancel').onclick = () => { $('#confirmDlg').close(); if (confirmRes) confirmRes(false); };
+$('#confirmDlg').addEventListener('close', () => { if (confirmRes) { const r = confirmRes; confirmRes = null; r(false); } });
 
 function nearBottom() { return chatEl.scrollHeight - chatEl.scrollTop - chatEl.clientHeight < 120; }
 function scrollBottom() { chatEl.scrollTop = chatEl.scrollHeight; }
@@ -723,7 +846,6 @@ function startReveal() {
     if (!last || last.role !== 'assistant' || !streamEl) { stopReveal(); return; }
     const full = last.text;
     if (shownLen < full.length) {
-      // نمایش کلمه‌به‌کلمه، نرم و به ترتیب جمله — بدون کندکردن پاسخ
       let target = full.length;
       const rest = full.slice(shownLen);
       const words = rest.split(/\s+/).filter(Boolean);
@@ -734,6 +856,9 @@ function startReveal() {
       shownLen = target;
       const stick = nearBottom();
       streamEl.innerHTML = md(full.slice(0, shownLen));
+      streamEl.classList.toggle('typingdots-off', shownLen > 0);
+      const dots = streamEl.parentElement && streamEl.parentElement.querySelector('.tdots');
+      if (dots && shownLen > 0) dots.remove();
       if (stick) scrollBottom();
     }
     if (!busy && shownLen >= full.length) stopReveal();
@@ -741,37 +866,62 @@ function startReveal() {
 }
 function updateStream() { /* نمایش تدریجی با تایمر انجام می‌شود */ }
 
+function iconBtn(svgPath, label, fn) {
+  const b = document.createElement('button');
+  b.className = 'mini-ic'; b.title = label; b.setAttribute('aria-label', label);
+  b.innerHTML = '<svg viewBox="0 0 24 24"><path d="' + svgPath + '"/></svg>';
+  b.onclick = fn;
+  return b;
+}
+const SVG_COPY = 'M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z';
+const SVG_RESEND = 'M17.65 6.35A8 8 0 1 0 19.73 14h-2.08a6 6 0 1 1-1.41-6.24L13 11h7V4l-2.35 2.35z';
+
 function makeBubble(m, streaming) {
   const wrap = document.createElement('div');
   wrap.className = 'msg ' + m.role;
-  const b = document.createElement('div');
-  b.className = 'bubble';
   if (m.role === 'user') {
+    const col = document.createElement('div'); col.className = 'ucol';
+    const b = document.createElement('div'); b.className = 'bubble';
     for (const f of m.files || []) {
-      const c = document.createElement('div'); c.className = 'fchip'; c.textContent = '📎 ' + f.name + (f.off ? t('fileOff') : '');
-      c.title = f.name; c.onclick = () => viewFile(f); b.append(c);
+      const c = document.createElement('div'); c.className = 'fcard';
+      const ic = document.createElement('span'); ic.className = 'fcard-ic'; ic.textContent = '📄';
+      const nm = document.createElement('span'); nm.className = 'fcard-nm'; nm.textContent = f.name + (f.off ? t('fileOff') : '');
+      c.append(ic, nm); c.title = f.name; c.onclick = () => viewFile(f);
+      b.append(c);
     }
-    const p = document.createElement('div'); p.className = 'utext'; p.textContent = m.text; b.append(p);
+    if (m.text) { const p = document.createElement('div'); p.className = 'utext'; p.textContent = m.text; b.append(p); }
+    col.append(b);
+    const acts = document.createElement('div'); acts.className = 'uacts';
+    acts.append(iconBtn(SVG_COPY, t('copy'), async () => { try { await navigator.clipboard.writeText(m.text); toast(t('copied')); } catch (e) { toast(t('copyFail')); } }));
+    acts.append(iconBtn(SVG_RESEND, t('resend'), () => { inputEl.value = m.text; autoGrow(); updateUI(); inputEl.focus(); }));
+    col.append(acts);
+    wrap.append(col);
   } else {
+    const col = document.createElement('div'); col.className = 'acol';
     const c = document.createElement('div');
-    c.className = 'md' + (streaming ? ' typing' : '');
-    c.innerHTML = md(m.text);
-    b.append(c);
-    if (!streaming && m.text) {
-      b.classList.add('has-copy');
-      const cp = document.createElement('button');
-      cp.className = 'copy'; cp.textContent = t('copy');
-      cp.onclick = async () => { try { await navigator.clipboard.writeText(m.text); toast(t('copied')); } catch (e) { toast(t('copyFail')); } };
-      b.append(cp);
+    c.className = 'md';
+    if (streaming && !m.text) {
+      const dots = document.createElement('div'); dots.className = 'tdots';
+      dots.innerHTML = '<span></span><span></span>';
+      col.append(dots);
     }
+    c.innerHTML = md(m.text);
+    col.append(c);
     if (!streaming && m.sources && m.sources.length) {
-      const sr = document.createElement('div'); sr.className = 'srcs';
-      sr.textContent = t('sources') + m.sources.join('، ');
-      b.append(sr);
+      const sr = document.createElement('div'); sr.className = 'srcrow';
+      const lb = document.createElement('span'); lb.className = 'srclab'; lb.textContent = t('sources') + ':';
+      sr.append(lb);
+      for (const s of m.sources) { const ch = document.createElement('span'); ch.className = 'srcchip'; ch.textContent = s; sr.append(ch); }
+      col.append(sr);
+    }
+    if (!streaming && m.text) {
+      const acts = document.createElement('div'); acts.className = 'aacts';
+      acts.append(iconBtn(SVG_COPY, t('copy'), async () => { try { await navigator.clipboard.writeText(m.text); toast(t('copied')); } catch (e) { toast(t('copyFail')); } }));
+      col.append(acts);
     }
     if (streaming) streamEl = c;
+    wrap.append(col);
   }
-  wrap.append(b);
   return wrap;
 }
 
@@ -787,8 +937,10 @@ function render() {
   const msgs = cur().messages;
   chatEl.innerHTML = '';
   if (!msgs.length) {
-    const h = document.createElement('div'); h.className = 'hint';
-    h.innerHTML = '<h2>' + esc(t('hintTitle')) + '</h2><div>' + esc(t('hintBody')) + '</div><div class="hints">' + esc(t('hintFormats')) + '</div>';
+    const h = document.createElement('div'); h.className = 'chatempty';
+    const mark = document.createElement('div'); mark.className = 'almark'; mark.textContent = 'F.C';
+    const gr = document.createElement('div'); gr.className = 'greet'; gr.textContent = t('greeting');
+    h.append(mark, gr);
     chatEl.append(h);
   }
   msgs.forEach((m, i) => {
@@ -797,22 +949,27 @@ function render() {
   });
   scrollBottom();
   updateUI();
-  renderThreads();
   updateModelChip();
 }
 
+/* پیش‌نمایش پیوست‌ها داخل کامپوزر */
 function renderChips() {
   chipsEl.innerHTML = '';
   pending.forEach((f, i) => {
-    const c = document.createElement('div'); c.className = 'chip' + (f.off ? ' off' : '');
-    const s = document.createElement('span'); s.className = 'nm'; s.textContent = f.name; s.title = f.name;
-    s.onclick = () => viewFile(f);
-    const x = document.createElement('button'); x.textContent = '×'; x.setAttribute('aria-label', '×');
+    const c = document.createElement('div'); c.className = 'attprev' + (f.off ? ' off' : '');
+    const ic = document.createElement('span'); ic.className = 'ap-ic'; ic.textContent = '📄';
+    const mid = document.createElement('div'); mid.className = 'ap-mid';
+    const nm = document.createElement('div'); nm.className = 'ap-nm'; nm.textContent = f.name; nm.title = f.name;
+    nm.onclick = () => viewFile(f);
+    const sub = document.createElement('div'); sub.className = 'ap-sub';
+    sub.textContent = f.text ? f.text.length.toLocaleString(settings.lang === 'en' ? 'en' : 'fa') + ' ✓' : (f.note || '');
+    mid.append(nm, sub);
+    const x = document.createElement('button'); x.className = 'ap-x'; x.textContent = '✕';
     x.onclick = () => { pending.splice(i, 1); renderChips(); updateUI(); };
-    c.append(s, x); chipsEl.append(c);
+    c.append(ic, mid, x); chipsEl.append(c);
   });
   if (processing) {
-    const c = document.createElement('div'); c.className = 'chip busy';
+    const c = document.createElement('div'); c.className = 'attprev busy';
     const sp = document.createElement('div'); sp.className = 'spin';
     const tx = document.createElement('span'); tx.textContent = t('readingFile');
     c.append(sp, tx); chipsEl.append(c);
@@ -841,10 +998,9 @@ $('#viewClose').onclick = () => $('#viewDlg').close();
 
 function updateUI() {
   const can = !busy && !processing && (inputEl.value.trim() || pending.length);
-  btnSend.disabled = !can;
-  btnSend.hidden = busy;
-  btnStop.hidden = !busy;
-  inputEl.placeholder = t('placeholder');
+  btnSend.hidden = !can;
+  btnStop.hidden = !(busy && !can);
+  inputEl.placeholder = t('inputHint');
 }
 
 function showError(msg, canRetry) {
@@ -860,14 +1016,21 @@ function showError(msg, canRetry) {
 }
 function clearError() { lastError = null; errEl.hidden = true; errEl.innerHTML = ''; }
 
-/* ======================= منوی کناری: فهرست گفتگوها ======================= */
-function openDrawer() { renderThreads(); $('#drawer').classList.add('open'); $('#scrim').hidden = false; }
-function closeDrawer() { $('#drawer').classList.remove('open'); $('#scrim').hidden = true; }
+/* ======================= منوی کناری (سه ورودی دقیق ArsinLia) ======================= */
+function openDrawer() { $('#drawer').classList.add('open'); $('#scrim').hidden = false; }
+function closeDrawer() { $('#drawer').classList.remove('open'); $('#scrim').hidden = true; $('#setSub').hidden = true; }
+
+/* ======================= تاریخچه‌ی گفتگوها ======================= */
 function renderThreads() {
   const list = $('#threadList');
   if (!list) return;
   list.innerHTML = '';
-  if (!threads.length) { list.innerHTML = '<div class="empty">' + esc(t('noChats')) + '</div>'; return; }
+  if (!threads.length || (threads.length === 1 && !threads[0].messages.length && !threads[0].title)) {
+    const e = document.createElement('div'); e.className = 'listempty';
+    e.innerHTML = '<div class="lemoji">💬</div><div>' + esc(t('emptyList')) + '</div>';
+    list.append(e);
+    return;
+  }
   for (const th of threads) {
     const row = document.createElement('div');
     row.className = 'trow' + (th.id === curId ? ' cur' : '');
@@ -875,28 +1038,33 @@ function renderThreads() {
     const tt = document.createElement('div'); tt.className = 'ttitle'; tt.textContent = th.title || t('untitled');
     const tm = document.createElement('div'); tm.className = 'tmodel'; tm.textContent = threadModelName(th);
     main.append(tt, tm);
-    main.onclick = () => { setCur(th.id); closeDrawer(); stopReveal(); render(); };
-    const del = document.createElement('button'); del.className = 'tdel'; del.textContent = '🗑';
-    del.onclick = (e) => {
-      e.stopPropagation();
-      if (!confirm(t('delChatConfirm'))) return;
-      threads = threads.filter((x) => x.id !== th.id);
-      if (!threads.length) threads = [newThread()];
-      if (!threads.some((x) => x.id === curId)) setCur(threads[0].id);
-      saveThreads(); render();
-    };
-    row.append(main, del);
+    main.onclick = () => { setCur(th.id); stopReveal(); showScreen('chat'); render(); };
+    const menu = document.createElement('button'); menu.className = 'tdots'; menu.textContent = '⋯';
+    menu.onclick = (e) => { e.stopPropagation(); openThreadMenu(th, menu); };
+    row.append(main, menu);
     list.append(row);
   }
 }
+let threadMenuFor = null;
+function openThreadMenu(th, anchor) {
+  threadMenuFor = th;
+  const m = $('#threadMenu');
+  m.hidden = false;
+  const r = anchor.getBoundingClientRect();
+  m.style.top = (r.bottom + 4) + 'px';
+  m.style.insetInlineStart = Math.max(8, r.left - 40) + 'px';
+}
+function closeThreadMenu() { $('#threadMenu').hidden = true; threadMenuFor = null; }
+document.addEventListener('click', (e) => {
+  const m = $('#threadMenu');
+  if (!m.hidden && !m.contains(e.target)) closeThreadMenu();
+});
 
 /* ======================= کشوی انتخاب مدل ======================= */
 function updateModelChip() {
   const sel = currentSel();
   const chip = $('#btnModel');
-  const name = sel && sel.model ? sel.model : t('chooseModel');
-  chip.textContent = name.length > 26 ? name.slice(0, 26) + '…' : name;
-  $('#hdrModel').textContent = sel ? (providerById(sel.providerId) ? providerById(sel.providerId).name + ' · ' : '') + (sel.model || '') : '';
+  chip.querySelector('.mname').textContent = sel && sel.model ? sel.model : t('chooseModel');
 }
 function openModelSheet() {
   renderModelSheet('');
@@ -907,23 +1075,34 @@ function closeModelSheet() { $('#modelSheet').classList.remove('open'); if (!$('
 function renderModelSheet(q) {
   const box = $('#modelGroups');
   box.innerHTML = '';
-  const query = (q || '').toLowerCase();
+  const query = (q || '').trim().toLowerCase();
   const aps = activeProviders();
-  if (!aps.length) { box.innerHTML = '<div class="empty">' + esc(t('noProvider')) + '</div>'; return; }
-  const sel = currentSel();
+  const groups = [];
   for (const p of aps) {
-    const models = (p.models && p.models.length) ? p.models : (p.model ? [p.model] : []);
+    const models = [...new Set([p.model, ...((p.models) || [])].map((x) => (x || '').trim()).filter(Boolean))];
     const shown = models.filter((m) => !query || m.toLowerCase().includes(query));
-    if (!shown.length) continue;
+    if (shown.length) groups.push({ p, shown });
+  }
+  if (!groups.length) {
+    box.innerHTML = '<div class="empty">' + esc(query ? t('modelSearchEmpty') : t('keyFirst')) + '</div>';
+    return;
+  }
+  const sel = currentSel();
+  for (const { p, shown } of groups) {
     const gh = document.createElement('div'); gh.className = 'ghead'; gh.textContent = p.name;
     box.append(gh);
     for (const m of shown) {
       const r = document.createElement('button');
       r.className = 'mrow2' + (sel && sel.providerId === p.id && sel.model === m ? ' sel' : '');
-      r.textContent = m; r.dir = 'ltr';
+      const tx = document.createElement('span'); tx.className = 'mname2'; tx.textContent = m; tx.dir = 'ltr';
+      r.append(tx);
+      if (sel && sel.providerId === p.id && sel.model === m) {
+        const ck = document.createElement('span'); ck.className = 'mcheck'; ck.textContent = '✓';
+        r.append(ck);
+      }
       r.onclick = () => {
         cur().sel = { providerId: p.id, model: m };
-        saveThreads(); updateModelChip(); closeModelSheet(); renderThreads();
+        saveThreads(); updateModelChip(); closeModelSheet();
       };
       box.append(r);
     }
@@ -942,9 +1121,9 @@ async function addFiles(list) {
   }
 }
 
-/* دستور رنگ در چت (به سبک ArsinLia): هر جمله‌ای که رنگ و بخش هدف را نام ببرد */
+/* دستور رنگ در چت — هر جمله‌ای که رنگ و بخش هدف را نام ببرد (به سبک ArsinLia) */
 const COLOR_WORDS = [
-  ['طلایی', '#c9a227'], ['gold', '#c9a227'], ['ذهبي', '#c9a227'],
+  ['طلایی', '#D4AF37'], ['gold', '#D4AF37'], ['ذهبي', '#D4AF37'],
   ['قرمز', '#d92d20'], ['سرخ', '#d92d20'], ['red', '#d92d20'], ['أحمر', '#d92d20'],
   ['آبی', '#1971c2'], ['blue', '#1971c2'], ['أزرق', '#1971c2'],
   ['سبز', '#2f9e44'], ['green', '#2f9e44'], ['أخضر', '#2f9e44'],
@@ -955,9 +1134,9 @@ const COLOR_WORDS = [
   ['مشکی', '#23242e'], ['سیاه', '#23242e'], ['black', '#23242e'], ['أسود', '#23242e'],
   ['سفید', '#f4f5fa'], ['white', '#f4f5fa'], ['أبيض', '#f4f5fa'],
   ['خاکستری', '#868e96'], ['طوسی', '#868e96'], ['gray', '#868e96'], ['grey', '#868e96'], ['رمادي', '#868e96'],
-  ['قهوه ای', '#8d5524'], ['قهوه‌ای', '#8d5524'], ['brown', '#8d5524'], ['بني', '#8d5524'],
+  ['قهوه ای', '#4E342E'], ['قهوه‌ای', '#4E342E'], ['brown', '#4E342E'], ['بني', '#4E342E'],
   ['نقره ای', '#adb5bd'], ['نقره‌ای', '#adb5bd'], ['silver', '#adb5bd'], ['فضي', '#adb5bd'],
-  ['فیروزه ای', '#0ca678'], ['فیروزه‌ای', '#0ca678'], ['teal', '#0ca678'],
+  ['فیروزه ای', '#00838F'], ['فیروزه‌ای', '#00838F'], ['teal', '#00838F'],
   ['کرم', '#efe0bd'], ['cream', '#efe0bd'],
   ['سرمه ای', '#22345c'], ['سرمه‌ای', '#22345c'], ['navy', '#22345c'],
   ['زرشکی', '#862e4b'], ['یشمی', '#0b7285'], ['cyan', '#0b7285']
@@ -973,8 +1152,9 @@ function detectColorCommand(raw) {
   }
   if (!hex) return null;
   let target = null;
-  if (/(حباب پاسخ|پاسخ ها|پاسخ‌ها|حباب دستیار|حباب هوش|ردود|الرد|assistant)/.test(text)) target = 'ai';
-  else if (/(رنگ اصلی|دکمه|تم |قالب|accent|button|الرئيسي|الأزرار)/.test(text)) target = 'accent';
+  if (/(پس زمینه|پس‌زمینه|background|الخلفية)/.test(text)) target = 'bg';
+  else if (/(عناوین|گزینه|titles|العناوين)/.test(text)) target = 'title';
+  else if (/(حباب پاسخ|پاسخ ها|پاسخ‌ها|حباب دستیار|حباب هوش|ردود|الرد|assistant)/.test(text)) target = 'ai';
   else if (/(حباب|پیام|رسائل|رسائلي|رسائلی|bubble|message)/.test(text)) target = 'me';
   if (!target) return null;
   return { target, hex };
@@ -1049,23 +1229,31 @@ function newChatThread() {
   clearError(); saveThreads(); renderChips(); render();
 }
 
+async function deleteThreadById(id) {
+  threads = threads.filter((x) => x.id !== id);
+  if (!threads.length) threads = [newThread()];
+  if (!threads.some((x) => x.id === curId)) setCur(threads[0].id);
+  saveThreads();
+}
+
 function autoGrow() {
   inputEl.style.height = 'auto';
-  inputEl.style.height = Math.min(inputEl.scrollHeight, 160) + 'px';
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
 }
 
 /* ======================= پیمایش صفحه‌ها ======================= */
-const SCREENS = ['chat', 'settings', 'ai', 'providers', 'provform', 'appearance', 'about'];
+const SCREENS = ['chat', 'history', 'settings', 'ai', 'providers', 'about'];
 function showScreen(name) {
   for (const s of SCREENS) {
     const el = $('#scr-' + s);
     if (el) el.hidden = s !== name;
   }
   if (name === 'providers') renderProviders();
+  if (name === 'history') renderThreads();
   window.scrollTo(0, 0);
 }
 
-/* ======================= بارگزاری مدلها ======================= */
+/* ======================= بارگذاری مدل‌ها ======================= */
 function modelsRequest(provider, base, key) {
   base = base.trim().replace(/\/+$/, '');
   if (provider === 'anthropic') return {
@@ -1085,182 +1273,270 @@ function modelsRequest(provider, base, key) {
   };
 }
 
+/* دیالوگ انتخاب مدل (فرم ارائه‌دهنده) */
+let pickerIds = [], pickerLoading = false;
+function renderPickerList(q) {
+  const box = $('#mpList');
+  box.innerHTML = '';
+  const query = (q || '').trim().toLowerCase();
+  const shown = pickerIds.filter((id) => !query || id.toLowerCase().includes(query));
+  if (pickerLoading && !pickerIds.length) { box.innerHTML = '<div class="mpmsg">' + esc(t('modelLoading')) + '</div>'; return; }
+  if (!shown.length) { box.innerHTML = '<div class="mpmsg">' + esc(t('modelNoResults')) + '</div>'; return; }
+  for (const id of shown) {
+    const r = document.createElement('button');
+    r.className = 'mprow'; r.textContent = id; r.dir = 'ltr';
+    r.onclick = () => { $('#pfModel').value = id; $('#modelDlg').close(); };
+    box.append(r);
+  }
+}
+async function openModelPicker() {
+  const base = $('#pfBase').value.trim(), key = $('#pfKey').value.trim();
+  const d = $('#modelDlg');
+  pickerIds = []; pickerLoading = true;
+  $('#mpSearch').value = '';
+  $('#mpMsg').textContent = '';
+  renderPickerList('');
+  if (!d.open) d.showModal();
+  try {
+    const rq = modelsRequest(detectType(base, 'openai'), base, key);
+    const resp = await fetch(rq.url, { headers: rq.headers });
+    const raw = await resp.text();
+    if (!resp.ok) { $('#mpMsg').textContent = 'HTTP ' + resp.status + ' — ' + raw.slice(0, 300); pickerLoading = false; renderPickerList(''); return; }
+    let ids = [];
+    try { ids = rq.parse(JSON.parse(raw)); } catch (e) { /* ignore */ }
+    pickerIds = [...new Set(ids)].sort();
+    formModels = pickerIds;
+    if (editingId) { const p = providerById(editingId); if (p) { p.models = pickerIds; saveSettings(); } }
+  } catch (e) {
+    $('#mpMsg').textContent = t('connFail') + e.message;
+  } finally {
+    pickerLoading = false;
+    renderPickerList($('#mpSearch').value);
+  }
+}
+$('#mpSearch').addEventListener('input', (e) => renderPickerList(e.target.value));
+$('#mpClose').onclick = () => $('#modelDlg').close();
+
 /* ======================= ارائه‌دهندگان ======================= */
 function renderProviders() {
   const box = $('#provList');
   box.innerHTML = '';
+  if (!settings.providers.length) {
+    box.innerHTML = '<div class="provempty">' + esc(t('provEmpty')) + '</div>';
+    return;
+  }
+  const sel = currentSel();
   for (const p of settings.providers) {
-    const card = document.createElement('div'); card.className = 'pcard';
-    const top = document.createElement('div'); top.className = 'pcard-top';
+    const card = document.createElement('div');
+    card.className = 'pcard' + (sel && sel.providerId === p.id ? ' active' : '');
     const nm = document.createElement('div'); nm.className = 'pname'; nm.textContent = p.name;
-    const tp = document.createElement('div'); tp.className = 'ptype'; tp.textContent = t0(p.type);
-    top.append(nm, tp);
-    const meta = document.createElement('div'); meta.className = 'pmeta'; meta.dir = 'ltr'; meta.textContent = p.baseUrl;
-    const meta2 = document.createElement('div'); meta2.className = 'pmeta';
-    meta2.textContent = (p.model || '') + ((p.models && p.models.length) ? ' · ' + p.models.length + ' ✓' : '');
-    const acts = document.createElement('div'); acts.className = 'pacts';
-    const be = document.createElement('button'); be.className = 'txt'; be.textContent = t('edit');
+    nm.onclick = () => openProvForm(p.id);
+    const be = document.createElement('button'); be.className = 'mini-ic'; be.title = t('editProvider');
+    be.innerHTML = '<svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>';
     be.onclick = () => openProvForm(p.id);
-    const bd = document.createElement('button'); bd.className = 'txt danger-t'; bd.textContent = t('del');
-    bd.onclick = () => {
-      if (!confirm(t('delProvConfirm'))) return;
+    const bd = document.createElement('button'); bd.className = 'mini-ic danger'; bd.title = t('del');
+    bd.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
+    bd.onclick = async () => {
+      if (!(await askConfirm(t('delProvTitle'), '«' + p.name + '» ' + t('delProvMsg'), t('del')))) return;
       settings.providers = settings.providers.filter((x) => x.id !== p.id);
       for (const th of threads) if (th.sel && th.sel.providerId === p.id) th.sel = null;
       saveSettings(); saveThreads(); renderProviders(); render();
     };
-    acts.append(be, bd);
-    card.append(top, meta, meta2, acts);
+    card.append(nm, be, bd);
     box.append(card);
   }
 }
 
-let editingId = null, formModels = null;
+let editingId = null, formModels = null, formRole = 'balanced';
 function openProvForm(id) {
   editingId = id || null;
   formModels = null;
   const p = id ? providerById(id) : null;
+  $('#pfTitle').textContent = p ? t('editProvider') : t('addProvider');
   $('#pfName').value = p ? p.name : '';
-  $('#pfType').value = p ? p.type : 'openai';
-  const type = $('#pfType').value;
-  $('#pfBase').value = p ? p.baseUrl : PROVIDERS[type].base;
+  $('#pfBase').value = p ? p.baseUrl : '';
   $('#pfKey').value = p ? p.apiKey : '';
-  $('#pfKey').type = 'password'; $('#pfShow').checked = false;
-  $('#pfModel').value = p ? p.model : PROVIDERS[type].model;
-  $('#pfHint').textContent = PROVIDERS[type].hint;
-  $('#pfModels').hidden = true; $('#pfModels').innerHTML = '';
-  $('#pfModelsMsg').textContent = '';
-  showScreen('provform');
+  $('#pfModel').value = p ? p.model : '';
+  formRole = p ? (p.role || 'balanced') : 'balanced';
+  syncRoleChips();
+  $('#provFormCard').hidden = false;
+  $('#provFormCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
-$('#pfType').onchange = () => {
-  const old = PROVIDERS[editingId && providerById(editingId) ? providerById(editingId).type : 'openai'];
-  const nw = PROVIDERS[$('#pfType').value];
-  const b = $('#pfBase'), m = $('#pfModel');
-  if (!b.value.trim() || b.value.trim() === old.base) b.value = nw.base;
-  if (!m.value.trim() || m.value.trim() === old.model) m.value = nw.model;
-  $('#pfHint').textContent = nw.hint;
-};
-$('#pfShow').onchange = (e) => { $('#pfKey').type = e.target.checked ? 'text' : 'password'; };
-function renderFormModels(ids) {
-  const box = $('#pfModels');
-  box.innerHTML = '';
-  for (const id of ids) {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'mrow' + (id === $('#pfModel').value.trim() ? ' sel' : ''); b.textContent = id;
-    b.onclick = () => {
-      $('#pfModel').value = id;
-      box.querySelectorAll('.mrow').forEach((r) => r.classList.toggle('sel', r === b));
-    };
-    box.append(b);
-  }
-  box.hidden = !ids.length;
+function syncRoleChips() {
+  document.querySelectorAll('#pfRoles button').forEach((b) => b.classList.toggle('sel', b.dataset.role === formRole));
 }
-$('#pfLoad').onclick = async () => {
-  const base = $('#pfBase').value.trim(), key = $('#pfKey').value.trim();
-  const msg = $('#pfModelsMsg');
-  if (!base || !key) { msg.textContent = t('needBaseKey'); return; }
-  const btn = $('#pfLoad');
-  btn.disabled = true; msg.textContent = t('loadingModels');
-  try {
-    const rq = modelsRequest($('#pfType').value, base, key);
-    const resp = await fetch(rq.url, { headers: rq.headers });
-    const raw = await resp.text();
-    if (!resp.ok) { msg.textContent = 'HTTP ' + resp.status + '\n' + raw.slice(0, 800); $('#pfModels').hidden = true; return; }
-    let ids = [];
-    try { ids = rq.parse(JSON.parse(raw)); } catch (e) { /* ignore */ }
-    ids = [...new Set(ids)].sort();
-    if (!ids.length) { msg.textContent = t('noModels'); $('#pfModels').hidden = true; return; }
-    formModels = ids;
-    renderFormModels(ids);
-    msg.textContent = ids.length + ' ' + t('modelsLoaded');
-  } catch (e) {
-    msg.textContent = t('connFail') + e.message;
-    $('#pfModels').hidden = true;
-  } finally { btn.disabled = false; }
-};
+document.querySelectorAll('#pfRoles button').forEach((b) => { b.onclick = () => { formRole = b.dataset.role; syncRoleChips(); }; });
+$('#pfLoad').onclick = openModelPicker;
+$('#addProvider').onclick = () => openProvForm(null);
+$('#pfCancel').onclick = () => { $('#provFormCard').hidden = true; };
 $('#pfSave').onclick = () => {
   const name = $('#pfName').value.trim(), base = $('#pfBase').value.trim(),
-    key = $('#pfKey').value.trim(), model = $('#pfModel').value.trim(), type = $('#pfType').value;
-  if (!name || !base || !key || !model) { toast(t('fillAll')); return; }
+    key = $('#pfKey').value.trim(), model = $('#pfModel').value.trim();
+  if (!name || !base || !model) { toast(t('fillAll')); return; }
   if (editingId) {
     const p = providerById(editingId);
-    Object.assign(p, { name, type, baseUrl: base, apiKey: key, model });
+    Object.assign(p, { name, baseUrl: base, apiKey: key, model, role: formRole, type: detectType(base, p.type) });
     if (formModels) p.models = formModels;
   } else {
-    settings.providers.push({ id: uid(), name, type, baseUrl: base, apiKey: key, model, models: formModels || [] });
+    settings.providers.push({ id: uid(), name, type: detectType(base, 'openai'), baseUrl: base, apiKey: key, model, models: formModels || [], role: formRole });
   }
   saveSettings(); toast(t('saved'));
-  showScreen('providers'); render();
+  $('#provFormCard').hidden = true;
+  renderProviders(); render();
 };
-$('#pfCancel').onclick = () => showScreen('providers');
 
-/* ======================= ظاهر و رنگ ======================= */
-const SWATCHES = ['#d92d20', '#e8590c', '#e8a100', '#2f9e44', '#0ca678', '#1971c2', '#7048e8', '#d6336c', '#c9a227', '#22345c', '#868e96', '#23242e'];
+/* ======================= رنگ و تم‌ها: انتخاب‌گر حباب (مشخصات ArsinLia) ======================= */
+const PAL_ME = ['#2E7D8A', '#2E7D32', '#1565C0', '#4E342E', '#00838F', '#D4AF37'];
+const PAL_AI = ['#2E7D8A', '#2E7D32', '#1565C0', '#4E342E', '#00838F', '#FFFFFF', '#D4AF37'];
+const PAL_BG = ['#2E7D8A', '#2E7D32', '#1565C0', '#4E342E', '#00838F', '#000000', '#D4AF37'];
+function buildPicker(mountId, palette, get, set, systemOption) {
+  const mount = $('#' + mountId);
+  mount.innerHTML = '';
+  if (systemOption) {
+    const row = document.createElement('div');
+    row.className = 'sysrow' + (get() === 'system' ? ' sel' : '');
+    row.innerHTML = '<span class="sysem">🌓</span><span class="syslab">' + esc(t('followSystem')) + '</span>' + (get() === 'system' ? '<span class="sysck">✓</span>' : '');
+    row.onclick = () => { set('system'); };
+    mount.append(row);
+  }
+  const grid = document.createElement('div'); grid.className = 'swgrid';
+  for (const hex of palette) {
+    const s = document.createElement('button');
+    s.className = 'sw' + (get() && get().toLowerCase() === hex.toLowerCase() ? ' sel' : '');
+    s.style.background = hex; s.setAttribute('aria-label', hex);
+    if (get() && get().toLowerCase() === hex.toLowerCase()) s.innerHTML = '<span class="swck">✓</span>';
+    s.onclick = () => set(hex);
+    grid.append(s);
+  }
+  mount.append(grid);
+  const row = document.createElement('div'); row.className = 'hexrow';
+  const inp = document.createElement('input');
+  inp.className = 'hexin'; inp.dir = 'ltr'; inp.value = get() === 'system' ? '' : (get() || '');
+  inp.placeholder = t('customHex');
+  const prev = document.createElement('div'); prev.className = 'hexprev';
+  prev.style.background = parseHex(inp.value) ? inp.value : 'transparent';
+  const err = document.createElement('div'); err.className = 'hexerr'; err.hidden = true; err.textContent = t('invalidHex');
+  inp.addEventListener('input', () => {
+    const v = inp.value.trim();
+    prev.style.background = parseHex(v) ? v : 'transparent';
+    if (parseHex(v)) { err.hidden = true; set(v); }
+    else err.hidden = !v;
+  });
+  row.append(inp, prev);
+  mount.append(row, err);
+}
 function renderAppearance() {
   document.querySelectorAll('#themeSeg button').forEach((b) => b.classList.toggle('sel', b.dataset.themeVal === settings.theme));
-  for (const key of ['me', 'ai', 'accent']) {
-    const box = $('#sw-' + key);
-    box.innerHTML = '';
-    for (const c of SWATCHES) {
-      const s = document.createElement('button');
-      s.className = 'sw' + (settings.colors[key] === c ? ' sel' : '');
-      s.style.background = c; s.setAttribute('aria-label', c);
-      s.onclick = () => { settings.colors[key] = c; saveSettings(); applyAppearance(); renderAppearance(); };
-      box.append(s);
-    }
-    const inp = $('#cp-' + key);
-    if (settings.colors[key]) inp.value = settings.colors[key];
-  }
+  const rebuild = () => { renderAppearance(); };
+  buildPicker('pk-me', PAL_ME, () => settings.colors.me, (v) => { settings.colors.me = v; saveSettings(); applyAppearance(); rebuild(); }, false);
+  buildPicker('pk-ai', PAL_AI, () => settings.colors.ai, (v) => { settings.colors.ai = v; saveSettings(); applyAppearance(); rebuild(); }, false);
+  buildPicker('pk-bg', PAL_BG, () => settings.colors.bg, (v) => { settings.colors.bg = v; saveSettings(); applyAppearance(); rebuild(); }, true);
+  buildPicker('pk-title', PAL_AI, () => settings.colors.title, (v) => { settings.colors.title = v; saveSettings(); applyAppearance(); rebuild(); }, false);
 }
 document.querySelectorAll('#themeSeg button').forEach((b) => {
   b.onclick = () => { settings.theme = b.dataset.themeVal; saveSettings(); applyAppearance(); renderAppearance(); };
 });
-for (const key of ['me', 'ai', 'accent']) {
-  $('#cp-' + key).addEventListener('input', (e) => { settings.colors[key] = e.target.value; saveSettings(); applyAppearance(); });
-  $('#cp-' + key).addEventListener('change', () => renderAppearance());
-}
-$('#resetColors').onclick = () => {
-  settings.colors = { me: '', ai: '', accent: '' };
-  saveSettings(); applyAppearance(); renderAppearance();
-};
+document.querySelectorAll('.secthead').forEach((h) => {
+  h.addEventListener('click', () => {
+    const body = h.parentElement.querySelector('.sectbody');
+    const open = body.hidden;
+    body.hidden = !open;
+    h.querySelector('.exp').textContent = open ? '▴' : '▾';
+    if (open && h.dataset.sect === 'colors') renderAppearance();
+  });
+});
+document.querySelectorAll('.subhead').forEach((h) => {
+  h.addEventListener('click', () => {
+    const body = h.parentElement.querySelector('.subbody');
+    body.hidden = !body.hidden;
+    h.querySelector('.exp').textContent = body.hidden ? '▾' : '▴';
+  });
+});
 
-/* ======================= تنظیمات عمومی ======================= */
+/* ======================= حافظه و زبان ======================= */
 function syncGeneral() {
-  $('#gPrompt').value = settings.systemPrompt;
-  $('#gTemp').value = settings.temperature ?? 1;
-  $('#gTempVal').textContent = $('#gTemp').value;
-  $('#gPdfImg').checked = settings.pdfAsImages;
   $('#memToggle').checked = settings.memory;
+  $('#memAutoToggle').checked = settings.memoryAuto;
   $('#langSel').value = settings.lang;
 }
-$('#gPrompt').addEventListener('change', () => { settings.systemPrompt = $('#gPrompt').value; saveSettings(); });
-$('#gTemp').addEventListener('input', (e) => { $('#gTempVal').textContent = e.target.value; settings.temperature = parseFloat(e.target.value); saveSettings(); });
-$('#gPdfImg').addEventListener('change', (e) => { settings.pdfAsImages = e.target.checked; saveSettings(); });
 $('#memToggle').addEventListener('change', (e) => { settings.memory = e.target.checked; saveSettings(); });
+$('#memAutoToggle').addEventListener('change', (e) => { settings.memoryAuto = e.target.checked; saveSettings(); });
 $('#langSel').addEventListener('change', (e) => {
   settings.lang = e.target.value; saveSettings();
-  applyLang(); render(); syncGeneral(); renderProviders();
+  applyLang(); render(); syncGeneral(); renderProviders(); renderThreads();
 });
-$('#clearData').onclick = () => {
-  if (!confirm(t('clearConfirm'))) return;
-  for (const k of ['fc.settings', 'fc.threads', 'fc.chat', 'fc.cur']) localStorage.removeItem(k);
-  settings = defaultSettings(); threads = [newThread()]; setCur(threads[0].id);
-  pending = []; applyAppearance(); applyLang(); syncGeneral(); render(); renderChips();
-  showScreen('settings');
+
+/* ======================= گزارش کرش (معادل وب: خطاهای ثبت‌شده‌ی خود برنامه) ======================= */
+window.addEventListener('error', (e) => {
+  try { localStorage.setItem('fc.crash', new Date().toISOString() + '\n' + (e.message || 'error')); } catch (x) { /* ignore */ }
+});
+$('#crashRow').onclick = () => {
+  let txt = '';
+  try { txt = localStorage.getItem('fc.crash') || ''; } catch (e) { /* ignore */ }
+  $('#crashText').textContent = txt || t('crashEmpty');
+  const d = $('#crashDlg');
+  if (!d.open) d.showModal();
+};
+$('#crashClose').onclick = () => $('#crashDlg').close();
+$('#crashCopyBtn').onclick = async () => {
+  try { await navigator.clipboard.writeText($('#crashText').textContent); toast(t('copied')); } catch (e) { toast(t('copyFail')); }
 };
 
-/* ======================= رویدادها ======================= */
+/* ======================= رویدادهای گفتگو و منوها ======================= */
 $('#btnMenu').onclick = openDrawer;
-$('#btnSettings').onclick = () => { syncGeneral(); showScreen('settings'); };
-$('#btnNewTop').onclick = () => { if (!cur().messages.length || confirm(t('newChatConfirm'))) newChatThread(); };
-$('#drawerNew').onclick = () => { closeDrawer(); newChatThread(); };
-$('#drawerSettings').onclick = () => { closeDrawer(); syncGeneral(); showScreen('settings'); };
+$('#btnNewTop').onclick = () => { showScreen('chat'); newChatThread(); };
+$('#btnDots').onclick = (e) => { e.stopPropagation(); const m = $('#headMenu'); m.hidden = !m.hidden; };
+document.addEventListener('click', (e) => {
+  const m = $('#headMenu');
+  if (!m.hidden && !m.contains(e.target) && e.target !== $('#btnDots')) m.hidden = true;
+});
+$('#hmDelete').onclick = async () => {
+  $('#headMenu').hidden = true;
+  if (await askConfirm(t('delChatTitle'), t('delChatMsg'), t('del'))) {
+    await deleteThreadById(curId);
+    showScreen('chat'); render(); renderChips();
+  }
+};
+$('#drawerSettingsRow').onclick = () => { $('#setSub').hidden = !$('#setSub').hidden; };
+$('#drawerAiRow').onclick = () => { closeDrawer(); showScreen('ai'); };
+$('#drawerSettingsMain').onclick = () => { closeDrawer(); syncGeneral(); showScreen('settings'); };
+$('#drawerAbout').onclick = () => { closeDrawer(); showScreen('about'); };
+$('#drawerHistory').onclick = () => { closeDrawer(); showScreen('history'); };
 $('#scrim').onclick = () => { closeDrawer(); closeModelSheet(); };
 $('#btnAttach').onclick = () => $('#file').click();
 $('#btnModel').onclick = openModelSheet;
 $('#modelSearch').addEventListener('input', (e) => renderModelSheet(e.target.value));
-document.querySelectorAll('#quick button').forEach((b) => {
-  b.onclick = () => { inputEl.value = b.getAttribute('data-q'); autoGrow(); updateUI(); inputEl.focus(); };
-});
+$('#histNew').onclick = () => { showScreen('chat'); newChatThread(); };
+$('#tmRename').onclick = () => {
+  const th = threadMenuFor; closeThreadMenu();
+  if (!th) return;
+  $('#renameInput').value = th.title || '';
+  const d = $('#renameDlg');
+  $('#renameOk').onclick = () => {
+    const v = $('#renameInput').value.trim();
+    if (v) th.title = v;
+    saveThreads(); renderThreads(); d.close();
+  };
+  if (!d.open) d.showModal();
+};
+$('#tmShare').onclick = async () => {
+  const th = threadMenuFor; closeThreadMenu();
+  if (!th) return;
+  const txt = th.messages.map((m) => (m.role === 'user' ? '👤 ' : '🤖 ') + m.text).join('\n\n');
+  try {
+    if (navigator.share) await navigator.share({ title: th.title || t('untitled'), text: txt });
+    else { await navigator.clipboard.writeText(txt); toast(t('copied')); }
+  } catch (e) { /* ignore */ }
+};
+$('#tmDelete').onclick = async () => {
+  const th = threadMenuFor; closeThreadMenu();
+  if (!th) return;
+  if (await askConfirm(t('delChatTitle'), t('delChatMsg'), t('del'))) {
+    await deleteThreadById(th.id);
+    renderThreads(); render();
+  }
+};
+$('#renameCancel').onclick = () => $('#renameDlg').close();
 $('#file').onchange = (e) => { addFiles(e.target.files); e.target.value = ''; };
 btnSend.onclick = send;
 btnStop.onclick = () => { if (abortCtl) abortCtl.abort(); };
@@ -1282,10 +1558,7 @@ inputEl.addEventListener('paste', (e) => {
 document.querySelectorAll('[data-back]').forEach((b) => { b.onclick = () => showScreen(b.dataset.back); });
 $('#rowAi').onclick = () => showScreen('ai');
 $('#rowProviders').onclick = () => showScreen('providers');
-$('#rowAppearance').onclick = () => { renderAppearance(); showScreen('appearance'); };
-$('#rowAbout').onclick = () => showScreen('about');
-$('#addProvider').onclick = () => openProvForm(null);
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (settings.theme === 'system') applyAppearance(); });
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (settings.theme === 'system' || settings.colors.bg === 'system') applyAppearance(); });
 
 /* نصب برنامه */
 let deferredInstall = null;
@@ -1324,4 +1597,4 @@ applyAppearance(); applyLang(); syncGeneral();
 showScreen('chat');
 render(); renderChips();
 importShared();
-if (!activeProviders().length) { toast(t('keyFirst')); showScreen('providers'); openProvForm(null); }
+if (!settings.providers.length) { toast(t('keyFirst')); showScreen('providers'); openProvForm(null); }
