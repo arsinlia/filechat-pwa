@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="fa" dir="rtl" data-theme="light">
+<html lang="fa" dir="rtl" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>چت با فایل</title>
-  <meta name="theme-color" content="#b8912a">
+  <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="manifest" href="manifest.webmanifest">
@@ -15,210 +15,226 @@
 <body>
 <div id="app">
 
-  <!-- ===== صفحه‌ی گفتگو ===== -->
+  <!-- ===== گفتگو ===== -->
   <section id="scr-chat" class="screen">
-    <header>
-      <button id="btnMenu" class="ic" data-i18n-title="chats">
-        <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    <div class="chathead">
+      <button id="btnMenu" class="ic" data-i18n-title="menuSettings" aria-label="منو">
+        <svg viewBox="0 0 26 26" class="menuic"><line x1="3.9" y1="6.5" x2="22.1" y2="6.5"/><line x1="9.4" y1="13" x2="22.1" y2="13"/><line x1="14.9" y1="19.5" x2="22.1" y2="19.5"/></svg>
       </button>
-      <div class="htitle">
-        <h1 data-i18n="appTitle">چت با فایل</h1>
-        <div id="hdrModel" class="hmodel" dir="auto"></div>
-      </div>
       <span class="sp"></span>
       <button id="btnInstall" class="txt" hidden data-i18n="install">نصب برنامه</button>
-      <button id="btnNewTop" class="ic" data-i18n-title="newChat">
+      <button id="btnDots" class="ic" aria-label="⋯">
+        <svg viewBox="0 0 24 24"><path d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+      </button>
+      <div id="headMenu" class="popmenu" hidden>
+        <button id="hmDelete" class="popitem danger-t"><span data-i18n="deleteChat">حذف گفتگو</span></button>
+      </div>
+      <button id="btnNewTop" class="ic plusic" data-i18n-title="newChat" aria-label="گفتگوی جدید">
         <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
       </button>
-      <button id="btnSettings" class="ic" data-i18n-title="settings">
-        <svg viewBox="0 0 24 24"><path d="M19.14 12.94a7.07 7.07 0 0 0 .06-.94c0-.32-.02-.63-.07-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7 7 0 0 0-1.62-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 0 0-.61.22L2.74 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.05.31-.07.63-.07.94s.02.63.07.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.61.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.09.48 0 .61-.22l1.92-3.32a.5.5 0 0 0-.12-.64zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg>
-      </button>
-    </header>
+    </div>
 
     <main id="chat"></main>
 
     <div id="errbar" hidden></div>
-    <div id="chips"></div>
-    <div id="quick">
-      <button type="button" data-q="فایل‌های پیوست را خلاصه کن و مهم‌ترین نکاتشان را بگو." data-i18n="qSummary">خلاصه‌ی فایل‌ها</button>
-      <button type="button" data-q="نکات کلیدی و مهم‌ترین اعداد و نتایج فایل‌های پیوست را استخراج کن." data-i18n="qKeys">نکات کلیدی</button>
-      <button type="button" data-q="فایل‌های پیوست را از نظر خطا، ایراد و ناسازگاری بررسی کن." data-i18n="qIssues">بررسی ایرادها</button>
-    </div>
 
-    <footer class="composer">
-      <button id="btnAttach" class="ic" data-i18n-title="attach">
-        <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg>
-      </button>
-      <button id="btnModel" class="modelchip" dir="ltr"></button>
-      <textarea id="input" rows="1"></textarea>
-      <button id="btnSend" class="ic primary" data-i18n-title="send">
-        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
-      </button>
-      <button id="btnStop" class="ic danger" data-i18n-title="stop" hidden>
-        <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
-      </button>
-    </footer>
+    <div class="composer">
+      <div id="chips"></div>
+      <div class="chiprow">
+        <button id="btnModel" class="modelchip"><span class="mname" dir="ltr"></span><span class="marrow">▾</span></button>
+      </div>
+      <div class="inputrow">
+        <button id="btnAttach" class="ic sm" data-i18n-title="attach" aria-label="پیوست فایل">
+          <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
+        </button>
+        <textarea id="input" rows="1"></textarea>
+        <button id="btnSend" class="ic sm sendic" data-i18n-title="send" aria-label="ارسال" hidden>
+          <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        </button>
+        <button id="btnStop" class="stopbtn" data-i18n-title="stopGen" aria-label="توقف تولید" hidden><span class="stopbox"><i></i><i></i></span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== تاریخچه گفتگوها ===== -->
+  <section id="scr-history" class="screen" hidden>
+    <div class="shead">
+      <button class="ic backic" data-back="chat"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
+      <h2 data-i18n="menuHistory">تاریخچه گفتگوها</h2>
+    </div>
+    <div id="threadList"></div>
+    <div class="histfoot"><button class="btn wide" id="histNew" data-i18n="newChat">گفتگوی جدید</button></div>
   </section>
 
   <!-- ===== تنظیمات ===== -->
   <section id="scr-settings" class="screen" hidden>
-    <div class="shead">
-      <button class="ic" data-back="chat"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
-      <h2 data-i18n="settings">تنظیمات</h2>
-    </div>
-    <div class="sbody">
-      <button class="srow" id="rowAi"><span data-i18n="aiSettings">تنظیمات هوش مصنوعی</span><span class="chev">‹</span></button>
-
-      <div class="scard">
-        <label class="flabel"><span data-i18n="systemPrompt">پرامپت سیستمی</span>
-          <textarea id="gPrompt" rows="4"></textarea>
-        </label>
-        <label class="flabel"><span><span data-i18n="temperature">دمای پاسخ (خلاقیت)</span>: <span id="gTempVal">1</span></span>
-          <input type="range" id="gTemp" min="0" max="1" step="0.05">
-        </label>
-        <label class="frow"><input type="checkbox" id="gPdfImg"> <span data-i18n="pdfImg"></span></label>
-        <label class="frow"><input type="checkbox" id="memToggle"> <span><span data-i18n="memory">حافظه‌ی گفتگو</span> — <small data-i18n="memoryHint"></small></span></label>
+    <div class="spage">
+      <div class="stitle">
+        <button class="ic backic" data-back="chat"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
+        <h2 data-i18n="settings">تنظیمات</h2>
       </div>
 
-      <button class="srow" id="rowAppearance"><span data-i18n="appearance">ظاهر و رنگ</span><span class="chev">‹</span></button>
+      <button class="entrycard" id="rowAi"><span data-i18n="aiHub">⚙️ تنظیمات هوش مصنوعی</span><span class="chev">‹</span></button>
 
-      <div class="scard">
-        <label class="flabel"><span data-i18n="language">زبان</span>
-          <select id="langSel">
+      <div class="sectcard">
+        <div class="secthead" data-sect="colors"><span data-i18n="colorsThemes">🎨 رنگ و تم‌ها</span><span class="exp">▾</span></div>
+        <div class="sectbody" hidden>
+          <div class="subsect">
+            <div class="subhead"><span data-i18n="subTheme">تم</span><span class="exp">▾</span></div>
+            <div class="subbody" hidden>
+              <div class="seg" id="themeSeg">
+                <button data-theme-val="light" data-i18n="themeLight">روشن</button>
+                <button data-theme-val="dark" data-i18n="themeDark">تیره</button>
+                <button data-theme-val="system" data-i18n="themeSystem">سیستم</button>
+              </div>
+            </div>
+          </div>
+          <div class="subsect">
+            <div class="subhead"><span data-i18n="userBubble">رنگ حباب پیام‌های شما</span><span class="exp">▾</span></div>
+            <div class="subbody" hidden><div id="pk-me"></div></div>
+          </div>
+          <div class="subsect">
+            <div class="subhead"><span data-i18n="aiBubble">رنگ پیام هوش مصنوعی</span><span class="exp">▾</span></div>
+            <div class="subbody" hidden><div id="pk-ai"></div></div>
+          </div>
+          <div class="subsect">
+            <div class="subhead"><span data-i18n="chatBg">رنگ پس‌زمینه‌ی گفتگو</span><span class="exp">▾</span></div>
+            <div class="subbody" hidden><div id="pk-bg"></div></div>
+          </div>
+          <div class="subsect">
+            <div class="subhead"><span data-i18n="titleOptionsColor">رنگ عناوین و گزینه‌ها</span><span class="exp">▾</span></div>
+            <div class="subbody" hidden><div id="pk-title"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sectcard">
+        <div class="secthead"><span data-i18n="memorySection">🧠 حافظه‌ی بلندمدت</span><span class="exp">▾</span></div>
+        <div class="sectbody" hidden>
+          <label class="switchrow"><span data-i18n="memoryInChat">استفاده از حافظه در گفتگو</span><span class="switch"><input type="checkbox" id="memToggle"><i></i></span></label>
+          <label class="switchrow col"><span data-i18n="memoryAuto">استخراج خودکار با AI</span><small data-i18n="memoryAutoHint"></small><span class="switch abs"><input type="checkbox" id="memAutoToggle"><i></i></span></label>
+        </div>
+      </div>
+
+      <div class="sectcard">
+        <div class="secthead noexp"><span data-i18n="languageSection">🌐 زبان</span></div>
+        <div class="sectbody always">
+          <select id="langSel" class="langsel">
             <option value="fa">فارسی</option>
             <option value="en">English</option>
             <option value="ar">العربية</option>
           </select>
-        </label>
+        </div>
       </div>
 
-      <button class="srow" id="rowAbout"><span data-i18n="about">درباره</span><span class="chev">‹</span></button>
-      <button class="srow danger-t" id="clearData"><span data-i18n="clearData">پاک کردن همه‌ی داده‌ها</span></button>
+      <div class="sectcard">
+        <div class="secthead noexp"><span data-i18n="crashSection">گزارش کرش</span></div>
+        <div class="sectbody always">
+          <button class="crashrow" id="crashRow"><span data-i18n="crashShow">نمایش آخرین گزارش کرش</span><span class="chev teal">‹</span></button>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ===== تنظیمات هوش مصنوعی ===== -->
   <section id="scr-ai" class="screen" hidden>
-    <div class="shead">
-      <button class="ic" data-back="settings"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
-      <h2 data-i18n="aiSettings">تنظیمات هوش مصنوعی</h2>
-    </div>
-    <div class="sbody">
-      <button class="srow" id="rowProviders"><span data-i18n="providers">ارائه دهندگان هوش مصنوعی</span><span class="chev">‹</span></button>
+    <div class="spage">
+      <div class="stitle">
+        <button class="ic backic" data-back="settings"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
+        <h2 data-i18n="aiHub">⚙️ تنظیمات هوش مصنوعی</h2>
+      </div>
+      <button class="entrycard" id="rowProviders"><span data-i18n="providers">ارائه دهندگان هوش مصنوعی</span><span class="chev">‹</span></button>
     </div>
   </section>
 
   <!-- ===== ارائه‌دهندگان ===== -->
   <section id="scr-providers" class="screen" hidden>
-    <div class="shead">
-      <button class="ic" data-back="ai"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
-      <h2 data-i18n="providers">ارائه دهندگان هوش مصنوعی</h2>
-    </div>
-    <div class="sbody">
-      <div id="provList"></div>
-      <button class="btn wide" id="addProvider" data-i18n="addProvider">افزودن ارائه‌دهنده</button>
-    </div>
-  </section>
-
-  <!-- ===== فرم ارائه‌دهنده ===== -->
-  <section id="scr-provform" class="screen" hidden>
-    <div class="shead">
-      <button class="ic" data-back="providers"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
-      <h2 data-i18n="addProvider">افزودن ارائه‌دهنده</h2>
-    </div>
-    <div class="sbody">
-      <div class="scard">
+    <div class="spage">
+      <div class="stitle">
+        <button class="ic backic" data-back="ai"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
+        <h2 data-i18n="providers">ارائه دهندگان هوش مصنوعی</h2>
+      </div>
+      <div class="sectcard flat">
+        <div id="provList"></div>
+      </div>
+      <button class="btn outlined wide" id="addProvider">＋ <span data-i18n="addProvider">افزودن ارائه‌دهنده‌ی تازه</span></button>
+      <div class="sectcard flat" id="provFormCard" hidden>
+        <div class="pfTitle" id="pfTitle"></div>
         <label class="flabel"><span data-i18n="pName">نام ارائه‌دهنده</span>
           <input id="pfName" autocomplete="off" spellcheck="false">
         </label>
-        <label class="flabel"><span data-i18n="pType">نوع API</span>
-          <select id="pfType">
-            <option value="openai">OpenAI و سازگارها (OpenRouter، AnyRouter، DeepSeek، ...)</option>
-            <option value="anthropic">Anthropic (Claude)</option>
-            <option value="gemini">Google Gemini</option>
-          </select>
-        </label>
         <label class="flabel"><span data-i18n="pBase">Base URL</span>
-          <input id="pfBase" dir="ltr" autocomplete="off" spellcheck="false">
-          <small id="pfHint"></small>
+          <input id="pfBase" dir="ltr" autocomplete="off" spellcheck="false" data-i18n-ph="pBasePh" placeholder="https://api.openai.com/v1">
         </label>
-        <label class="flabel"><span data-i18n="pKey">API Key</span>
+        <label class="flabel"><span data-i18n="pKey">کلید API</span>
           <input id="pfKey" dir="ltr" type="password" autocomplete="off" spellcheck="false">
         </label>
-        <label class="frow"><input type="checkbox" id="pfShow"> <span data-i18n="showKey">نمایش کلید</span></label>
-        <label class="flabel"><span data-i18n="pModel">نام مدل</span>
-          <input id="pfModel" dir="ltr" autocomplete="off" spellcheck="false">
+        <button type="button" id="pfLoad" class="btn outlined wide" data-i18n="loadModels">بارگذاری مدل‌ها</button>
+        <label class="flabel"><span data-i18n="pModel">نام مدل متنی</span>
+          <input id="pfModel" dir="ltr" autocomplete="off" spellcheck="false" data-i18n-ph="pModelPh" placeholder="gpt-4o-mini">
         </label>
-        <button type="button" id="pfLoad" class="btn" data-i18n="loadModels">بارگزاری مدلها</button>
-        <div id="pfModels" class="modellist" hidden></div>
-        <small id="pfModelsMsg"></small>
-        <div class="actions">
-          <button type="button" id="pfCancel" class="txt" data-i18n="cancel">انصراف</button>
-          <span class="sp"></span>
-          <button type="button" id="pfSave" class="btn" data-i18n="save">ذخیره</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== ظاهر و رنگ ===== -->
-  <section id="scr-appearance" class="screen" hidden>
-    <div class="shead">
-      <button class="ic" data-back="settings"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
-      <h2 data-i18n="appearance">ظاهر و رنگ</h2>
-    </div>
-    <div class="sbody">
-      <div class="scard">
-        <div class="flabel"><span data-i18n="theme">تم</span>
-          <div class="seg" id="themeSeg">
-            <button data-theme-val="system" data-i18n="themeSystem">سیستم</button>
-            <button data-theme-val="light" data-i18n="themeLight">روشن</button>
-            <button data-theme-val="dark" data-i18n="themeDark">تیره</button>
+        <div class="flabel"><span data-i18n="modelRole">راهبرد پاسخگویی مدل</span>
+          <div class="rolechips" id="pfRoles">
+            <button data-role="fast" data-i18n="roleFast">سریع</button>
+            <button data-role="balanced" data-i18n="roleBalanced">متعادل</button>
+            <button data-role="quality" data-i18n="roleQuality">دقیق</button>
           </div>
         </div>
-        <div class="flabel"><span data-i18n="colorMe">رنگ حباب پیام‌های من</span>
-          <div class="swrow"><div class="swgrid" id="sw-me"></div><input type="color" id="cp-me"></div>
+        <div class="pfBtns">
+          <button type="button" id="pfSave" class="btn grow" data-i18n="saveAi">💾 ذخیره‌ی تنظیمات هوش مصنوعی</button>
+          <button type="button" id="pfCancel" class="btn outlined grow" data-i18n="cancel">انصراف</button>
         </div>
-        <div class="flabel"><span data-i18n="colorAi">رنگ حباب پاسخ‌ها</span>
-          <div class="swrow"><div class="swgrid" id="sw-ai"></div><input type="color" id="cp-ai"></div>
-        </div>
-        <div class="flabel"><span data-i18n="colorAccent">رنگ اصلی (دکمه‌ها)</span>
-          <div class="swrow"><div class="swgrid" id="sw-accent"></div><input type="color" id="cp-accent"></div>
-        </div>
-        <button class="txt" id="resetColors" data-i18n="resetColors">بازگردانی رنگ‌های پیش‌فرض</button>
       </div>
     </div>
   </section>
 
   <!-- ===== درباره ===== -->
   <section id="scr-about" class="screen" hidden>
-    <div class="shead">
-      <button class="ic" data-back="settings"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
-      <h2 data-i18n="about">درباره</h2>
-    </div>
-    <div class="sbody">
-      <div class="scard">
-        <p data-i18n="aboutText"></p>
-        <p class="muted" data-i18n="version">نسخه ۵٫۰</p>
+    <div class="spage">
+      <div class="stitle">
+        <button class="ic backic" data-back="chat"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></button>
+        <h2 data-i18n="menuAbout">درباره‌ی FileChat</h2>
+      </div>
+      <div class="aboutbox">
+        <div class="abot">🤖</div>
+        <div class="aname">FileChat</div>
+        <div class="atag" data-i18n="aboutTagline">چت با فایل‌های شما</div>
+        <div class="arow"><span data-i18n="aboutVersion">نسخه</span><b data-i18n="aboutVersionVal">۶٫۰</b></div>
+        <p class="adesc" data-i18n="aboutText"></p>
       </div>
     </div>
   </section>
 </div>
 
-<!-- منوی کناری گفتگوها -->
+<!-- منوی کناری -->
 <div id="scrim" hidden></div>
 <aside id="drawer">
-  <div class="dhead"><h2 data-i18n="chats">گفتگوها</h2></div>
-  <button class="btn wide" id="drawerNew" data-i18n="newChat">گفتگوی جدید</button>
-  <div id="threadList"></div>
-  <div class="dfoot"><button class="srow" id="drawerSettings"><span data-i18n="settings">تنظیمات</span><span class="chev">‹</span></button></div>
+  <div class="drow" id="drawerSettingsMain">
+    <span class="demoji">⚙️</span><span class="dlabel" data-i18n="menuSettings">تنظیمات</span>
+    <button class="dexp" id="drawerSettingsRow" aria-label="▾">▾</button>
+  </div>
+  <div id="setSub" hidden>
+    <div class="dsub" id="drawerAiRow"><span class="dbullet">•</span><span data-i18n="aiHub">⚙️ تنظیمات هوش مصنوعی</span></div>
+  </div>
+  <div class="drow" id="drawerAbout">
+    <span class="demoji">ℹ️</span><span class="dlabel" data-i18n="menuAbout">درباره‌ی FileChat</span>
+  </div>
+  <div class="drow" id="drawerHistory">
+    <span class="demoji">🕘</span><span class="dlabel" data-i18n="menuHistory">تاریخچه گفتگوها</span>
+  </div>
 </aside>
 
 <!-- کشوی انتخاب مدل -->
 <div id="modelSheet">
-  <div class="mhead"><h2 data-i18n="chooseModel">انتخاب مدل</h2></div>
-  <input id="modelSearch" data-i18n-ph="searchModels" placeholder="جستجوی مدل...">
+  <input id="modelSearch" data-i18n-ph="modelSearchHint" placeholder="جستجوی مدل…">
   <div id="modelGroups"></div>
+</div>
+
+<!-- منوی ردیف گفتگو -->
+<div id="threadMenu" class="popmenu" hidden>
+  <button id="tmRename" class="popitem"><span data-i18n="rename">تغییر نام</span></button>
+  <button id="tmShare" class="popitem"><span data-i18n="shareThread">اشتراک گفتگو</span></button>
+  <button id="tmDelete" class="popitem danger-t"><span data-i18n="del">حذف</span></button>
 </div>
 
 <input type="file" id="file" multiple hidden>
@@ -227,6 +243,41 @@
   <div class="vhead"><h2 id="viewTitle"></h2><button type="button" id="viewClose" class="txt" data-i18n="close">بستن</button></div>
   <pre id="viewText" dir="auto"></pre>
   <div class="actions"><button type="button" id="viewToggle" class="btn"></button></div>
+</dialog>
+
+<dialog id="confirmDlg">
+  <h2 id="cfTitle"></h2>
+  <p id="cfText"></p>
+  <div class="actions end">
+    <button type="button" id="cfCancel" class="txt"></button>
+    <button type="button" id="cfOk" class="txt danger-t"></button>
+  </div>
+</dialog>
+
+<dialog id="renameDlg">
+  <h2 data-i18n="renameTitle">تغییر نام گفتگو</h2>
+  <label class="flabel"><span data-i18n="renameLabel">نام جدید گفتگو</span><input id="renameInput"></label>
+  <div class="actions end">
+    <button type="button" id="renameCancel" class="txt" data-i18n="cancel">انصراف</button>
+    <button type="button" id="renameOk" class="txt" data-i18n="save">ذخیره</button>
+  </div>
+</dialog>
+
+<dialog id="modelDlg">
+  <h2 data-i18n="modelSelectTitle">انتخاب مدل</h2>
+  <input id="mpSearch" class="mpsearch" data-i18n-ph="modelSearch" placeholder="جستجوی مدل…">
+  <div id="mpMsg" class="mpmsg2"></div>
+  <div id="mpList"></div>
+  <div class="actions end"><button type="button" id="mpClose" class="txt" data-i18n="close">بستن</button></div>
+</dialog>
+
+<dialog id="crashDlg">
+  <h2 data-i18n="crashSection">گزارش کرش</h2>
+  <pre id="crashText" dir="auto"></pre>
+  <div class="actions end">
+    <button type="button" id="crashClose" class="txt" data-i18n="close">بستن</button>
+    <button type="button" id="crashCopyBtn" class="txt" data-i18n="crashCopy">کپی</button>
+  </div>
 </dialog>
 
 <div id="toast" role="status"></div>
