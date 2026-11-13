@@ -34,7 +34,8 @@ const CDN = {
   pdfWorker: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
   mammoth: 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js',
   xlsx: 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
-  jszip: 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'
+  jszip: 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+  tesseract: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.5/dist/tesseract.min.js'
 };
 
 const IMAGE_EXT = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp'];
@@ -56,7 +57,6 @@ const STR = {
     titleOptionsColor: 'رنگ عناوین و گزینه‌ها', followSystem: '🌓 پیروی از تم سیستم',
     customHex: 'کد هگز دلخواه (مثل ‎#2E7D8A‎)', invalidHex: 'کد هگز نامعتبر است',
     memorySection: '🧠 حافظه‌ی بلندمدت', memoryInChat: 'استفاده از حافظه در گفتگو',
-    memoryAuto: 'استخراج خودکار با AI', memoryAutoHint: 'وقتی روشن باشد، بعد از چند پیام، نکات مهم درباره‌ی شما به‌صورت خودکار در حافظه ذخیره می‌شود.',
     languageSection: '🌐 زبان', crashSection: 'گزارش کرش', crashShow: 'نمایش آخرین گزارش کرش',
     crashEmpty: 'کرشی ثبت نشده است.', crashCopy: 'کپی', close: 'بستن', back: 'بازگشت',
     addProvider: 'افزودن ارائه‌دهنده‌ی تازه', editProvider: 'ویرایش ارائه‌دهنده',
@@ -92,7 +92,6 @@ const STR = {
     titleOptionsColor: 'Titles & options color', followSystem: '🌓 Follow system theme',
     customHex: 'Custom hex code (e.g. #2E7D8A)', invalidHex: 'Invalid hex code',
     memorySection: '🧠 Long-term memory', memoryInChat: 'Use memory in chat',
-    memoryAuto: 'Automatic extraction with AI', memoryAutoHint: 'When on, after a few messages, key facts about you are stored automatically.',
     languageSection: '🌐 Language', crashSection: 'Crash report', crashShow: 'Show latest crash report',
     crashEmpty: 'No crash recorded.', crashCopy: 'Copy', close: 'Close', back: 'Back',
     addProvider: 'Add new provider', editProvider: 'Edit provider',
@@ -128,7 +127,6 @@ const STR = {
     titleOptionsColor: 'لون العناوين والخيارات', followSystem: '🌓 اتباع سمة النظام',
     customHex: 'كود سداسي مخصص (مثل #2E7D8A)', invalidHex: 'كود سداسي غير صالح',
     memorySection: '🧠 الذاكرة طويلة الأمد', memoryInChat: 'استخدام الذاكرة في المحادثة',
-    memoryAuto: 'الاستخراج التلقائي بالذكاء الاصطناعي', memoryAutoHint: 'عند التشغيل، تحفظ النقاط المهمة عنك تلقائيا بعد بضع رسائل.',
     languageSection: '🌐 اللغة', crashSection: 'تقرير الأعطال', crashShow: 'عرض آخر تقرير عطل',
     crashEmpty: 'لا عطل مسجل.', crashCopy: 'نسخ', close: 'إغلاق', back: 'رجوع',
     addProvider: 'إضافة مقدم جديد', editProvider: 'تعديل المقدم',
@@ -175,7 +173,7 @@ const ROLE_TEMP = { fast: 0.3, balanced: 0.7, quality: 1.0 };
 function defaultSettings() {
   return {
     v: 3, providers: [], systemPrompt: DEFAULT_PROMPT, pdfAsImages: false,
-    theme: 'dark', lang: 'fa', memory: true, memoryAuto: false,
+    theme: 'dark', lang: 'fa', memory: true,
     colors: { me: '#2E7D32', ai: '#2A2A4A', bg: '#000000', title: '#FFFFFF' }
   };
 }
@@ -508,7 +506,7 @@ async function pdfProcess(file, buf, asImages) {
   };
 
   if (asImages) {
-    const images = await render(10);
+    const images = await render(30);
     return { name: file.name, images, note: `PDF به صورت تصویر ارسال شد (${images.length} صفحه‌ی اول)` };
   }
 
@@ -528,7 +526,16 @@ async function pdfProcess(file, buf, asImages) {
   out = out.normalize('NFKC');
   if (out.replace(/--- صفحه \d+ ---/g, '').trim().length >= 40) return { name: file.name, text: out.trim(), pages: doc.numPages };
 
-  const images = await render(8);
+  // FileChat v7: اسکن‌ها اول با OCR داخلی خوانده می‌شوند (تا ۳۰ صفحه) تا
+  // با مدلِ متنی هم قابل استفاده باشند؛ اگر OCR متنِ کافی نداد، مسیرِ
+  // تصویریِ قبلی با سقفِ بیشتر (۲۰ صفحه) جایگزین است.
+  try {
+    const ocr = await ocrPdfText(doc, render, 30);
+    if (ocr && ocr.replace(/--- صفحه \d+ ---/g, '').trim().length >= 40) {
+      return { name: file.name, text: ocr.trim(), pages: doc.numPages, note: 'این PDF اسکن بود و متنش با OCR داخلی خوانده شد' };
+    }
+  } catch (e) { /* OCR در دسترس نبود — مسیرِ تصویر */ }
+  const images = await render(20);
   return {
     name: file.name, images,
     note: `این PDF متن قابل استخراج نداشت (احتمالاً اسکن است)؛ ${images.length} صفحه‌ی اول به صورت تصویر ارسال شد و مدل باید قابلیت بینایی داشته باشد`
@@ -552,7 +559,169 @@ async function pptxText(buf) {
   return parts.join('\n\n');
 }
 
-async function extractFile(file) {
+
+/* ===== FileChat v7: OCR داخلی برای PDFهای اسکن‌شده (Tesseract، فارسی) ===== */
+async function ocrPdfText(doc, render, maxPages) {
+  await loadScript(CDN.tesseract);
+  if (typeof Tesseract === 'undefined') return '';
+  const imgs = await render(maxPages);
+  const worker = await Tesseract.createWorker('fas');
+  let out = '';
+  try {
+    for (let i = 0; i < imgs.length; i++) {
+      const { data } = await worker.recognize('data:' + imgs[i].mime + ';base64,' + imgs[i].b64);
+      out += '\n--- صفحه ' + (i + 1) + ' ---\n' + ((data && data.text) || '');
+    }
+  } finally {
+    try { await worker.terminate(); } catch (e) { /* ignore */ }
+  }
+  return out;
+}
+
+/* ===== FileChat v7: خواندنِ DOC (وردِ قدیمی، OLE2/CFB + جدولِ قطعه‌ها) ===== */
+function docText(buf) {
+  const b = new Uint8Array(buf);
+  const dv = new DataView(buf);
+  const u16 = (o) => dv.getUint16(o, true);
+  const u32 = (o) => dv.getUint32(o, true);
+  if (b.length < 512 || b[0] !== 0xD0 || b[1] !== 0xCF) return '';
+  const sectSize = 1 << u16(30);
+  const miniCutoff = u32(56);
+  const sectOff = (sid) => (sid + 1) * sectSize;
+  const fatIds = [];
+  for (let i = 0; i < 109; i++) { const v = u32(76 + i * 4); if (v < 0xFFFFFFFA) fatIds.push(v); }
+  let difatNext = u32(68), difatLeft = u32(72);
+  while (difatNext < 0xFFFFFFFA && difatLeft > 0) {
+    const off = sectOff(difatNext), per = sectSize / 4 - 1;
+    for (let i = 0; i < per; i++) { const v = u32(off + i * 4); if (v < 0xFFFFFFFA) fatIds.push(v); }
+    difatNext = u32(off + per * 4); difatLeft--;
+  }
+  const fat = [];
+  for (const sid of fatIds) {
+    const off = sectOff(sid);
+    if (off < 0 || off + sectSize > b.length) break;
+    for (let i = 0; i < sectSize / 4; i++) fat.push(u32(off + i * 4));
+  }
+  const readChain = (start) => {
+    const parts = [];
+    let sid = start, guard = 0;
+    while (sid >= 0 && sid < 0xFFFFFFFA && guard++ < 100000) {
+      const off = sectOff(sid);
+      if (off < 0 || off >= b.length) break;
+      parts.push(b.subarray(off, Math.min(off + sectSize, b.length)));
+      sid = fat[sid];
+      if (sid === undefined) break;
+    }
+    const all = new Uint8Array(parts.reduce((a, x) => a + x.length, 0));
+    let w = 0;
+    for (const x of parts) { all.set(x, w); w += x.length; }
+    return all;
+  };
+  const dirBytes = readChain(u32(48));
+  const streams = {};
+  for (let d = 0; d + 128 <= dirBytes.length; d += 128) {
+    const ddv = new DataView(dirBytes.buffer, dirBytes.byteOffset + d, 128);
+    const nameLen = ddv.getUint16(64, true);
+    const type = dirBytes[d + 66];
+    if (type !== 2 || nameLen < 2) continue;
+    const nm = new TextDecoder('utf-16le').decode(dirBytes.subarray(d, d + nameLen - 2));
+    streams[nm] = { start: ddv.getUint32(116, true), size: Number(ddv.getBigUint64(120, true)) };
+  }
+  const getStream = (nm) => {
+    const e = streams[nm];
+    if (!e) return null;
+    if (e.size < miniCutoff) return null; // جریان‌های ریز در این نسخه رد می‌شوند
+    const all = readChain(e.start);
+    return all.subarray(0, Math.min(e.size, all.length));
+  };
+  const wd = getStream('WordDocument');
+  if (!wd || wd.length < 512) return '';
+  const wdv = new DataView(wd.buffer, wd.byteOffset, wd.length);
+  let text = '';
+  try {
+    const tblName = (wdv.getUint16(0x0A, true) & 0x0200) ? '1Table' : '0Table';
+    const tbl = getStream(tblName) || getStream('0Table') || getStream('1Table');
+    if (tbl) {
+      const fcClx = wdv.getUint32(0x01A2, true), lcbClx = wdv.getUint32(0x01A6, true);
+      let p = fcClx; const end = Math.min(fcClx + lcbClx, tbl.length);
+      let plcOff = -1, plcLen = 0;
+      const tdv = new DataView(tbl.buffer, tbl.byteOffset, tbl.length);
+      while (p < end) {
+        const tag = tbl[p];
+        if (tag === 1) { p += 3 + tdv.getUint16(p + 1, true); }
+        else if (tag === 2) { plcLen = tdv.getUint32(p + 1, true); plcOff = p + 5; break; }
+        else break;
+      }
+      if (plcOff >= 0 && plcLen > 0) {
+        const n = Math.floor((plcLen - 4) / 12);
+        const dec1256 = new TextDecoder('windows-1256');
+        const dec16 = new TextDecoder('utf-16le');
+        for (let i = 0; i < n; i++) {
+          const cpS = tdv.getUint32(plcOff + i * 4, true);
+          const cpE = tdv.getUint32(plcOff + (i + 1) * 4, true);
+          const chars = cpE - cpS;
+          if (chars <= 0) continue;
+          const fcRaw = tdv.getUint32(plcOff + (n + 1) * 4 + i * 8 + 2, true);
+          if (fcRaw & 0x40000000) {
+            const off = (fcRaw & 0x3FFFFFFF) / 2;
+            if (off >= 0 && off < wd.length) text += dec1256.decode(wd.subarray(off, Math.min(off + chars, wd.length)));
+          } else {
+            const off = fcRaw & 0x3FFFFFFF;
+            if (off >= 0 && off < wd.length) text += dec16.decode(wd.subarray(off, Math.min(off + chars * 2, wd.length)));
+          }
+        }
+      }
+    }
+  } catch (e) { /* مسیرِ دوم */ }
+  if (text.trim().length >= 100) return text;
+  // مسیرِ دوم: اسکنِ رشته‌های UTF-16LE
+  const dec16 = new TextDecoder('utf-16le');
+  let scan = '', run = '';
+  for (let i = 0; i + 1 < wd.length; i += 2) {
+    const ch = wd[i] | (wd[i + 1] << 8);
+    const ok = ch >= 0x20 && ch < 0xD800 && ch !== 0xFFFE && ch !== 0xFFFF;
+    if (ok) run += String.fromCharCode(ch);
+    else { if (run.length >= 12) scan += run + '\n'; run = ''; }
+  }
+  if (run.length >= 12) scan += run;
+  return scan.length > text.length ? scan : text;
+}
+
+/* ===== FileChat v7: آرشیو ZIP — هر ورودی مثل فایلِ عادی خوانده می‌شود ===== */
+async function archiveFile(file, depth) {
+  await loadScript(CDN.jszip);
+  const zip = await JSZip.loadAsync(await file.arrayBuffer());
+  const names = Object.keys(zip.files).filter((n) => !zip.files[n].dir);
+  const texts = [], images = [], notes = [];
+  let media = null, total = 0;
+  for (const entryName of names.slice(0, 500)) {
+    const entry = zip.files[entryName];
+    const buf = await entry.async('arraybuffer');
+    total += buf.byteLength;
+    if (total > 512 * 1024 * 1024) { notes.push('بقیه‌ی آرشیو به دلیل حجم خوانده نشد'); break; }
+    const base = entryName.split('/').pop() || entryName;
+    let r;
+    try {
+      r = await extractFile(new File([buf], base), depth + 1);
+    } catch (e) {
+      r = { name: base, note: 'خوانده نشد: ' + (e.message || e) };
+    }
+    if (r.text) texts.push('[فایل داخلی: ' + entryName + ']\n' + r.text);
+    if (r.images) for (const im of r.images) images.push(im);
+    if (r.media && !media) media = r.media;
+    if (r.note) notes.push(base + ': ' + r.note);
+  }
+  const out = { name: file.name };
+  if (texts.length) out.text = texts.join('\n\n');
+  if (images.length) out.images = images;
+  if (media) out.media = media;
+  if (notes.length) out.note = notes.join('؛ ');
+  if (!out.text && !out.images && !out.media && !out.note) out.note = 'در این آرشیو فایل خواندنی پیدا نشد';
+  return out;
+}
+
+async function extractFile(file, depth) {
+  depth = depth || 0;
   if (file.size > MAX_BYTES) throw new Error('حجم فایل بیشتر از ۳۰ مگابایت است');
   const name = file.name || 'file';
   const ext = (name.split('.').pop() || '').toLowerCase();
@@ -574,6 +743,12 @@ async function extractFile(file) {
     return textual(wb.SheetNames.map((n) => `### برگه: ${n}\n` + XLSX.utils.sheet_to_csv(wb.Sheets[n])).join('\n\n'));
   }
   if (ext === 'pptx') return textual(await pptxText(await file.arrayBuffer()));
+  if (ext === 'doc') return textual(docText(await file.arrayBuffer()));
+  if (ext === 'zip') {
+    if (depth >= 2) return { name, note: 'آرشیو تودرتو در این نسخه خوانده نمی‌شود' };
+    return archiveFile(file, depth);
+  }
+  if (ext === 'rar') return { name, note: 'فایل‌های RAR در این نسخه خوانده نمی‌شوند؛ لطفاً آن را به ZIP تبدیل کنید' };
 
   if (mime.startsWith('audio/') || mime.startsWith('video/') || MEDIA_MIME[ext]) {
     if (file.size > MAX_MEDIA) throw new Error('فایل صوتی/ویدیویی بیشتر از ۱۵ مگابایت است');
@@ -637,7 +812,7 @@ function relevantText(f, question) {
       while ((j = cn.indexOf(t, j)) >= 0 && n < 5) { n++; j += t.length; }
       sc += n;
     }
-    if (art && new RegExp('ماده\\s*[–—-]?\\s*' + art[1] + '(?![0-9])').test(cn)) sc += 100;
+    if (art && (new RegExp('ماده\\s*[–—-]?\\s*' + art[1] + '(?![0-9])').test(cn) || cn.replace(/\s+/g, '').includes('ماده' + art[1]))) sc += 100;
     return { i, sc, c };
   });
   const anyHit = scored.some((x) => x.sc > 0);
@@ -650,21 +825,28 @@ function relevantText(f, question) {
       chosen.push(x); used += x.c.text.length;
     }
   } else {
-    const avg = 2600;
-    const step = Math.max(1, Math.floor(chunks.length / Math.max(1, Math.floor(CTX_BUDGET / avg))));
-    for (let i = 0; i < chunks.length && used < CTX_BUDGET; i += step) { chosen.push(scored[i]); used += scored[i].c.text.length; }
+    // FileChat v7: fallbackِ نمونه‌برداری حذف شد — فرستادنِ بخش‌های نامرتبط
+    // با برچسبِ «مرتبط» مدل را به جواب‌سازی از متنِ غلط می‌کشاند. حالا
+    // صریحاً «پیدا نشد» برمی‌گردد تا مدل صادقانه بگوید.
+    return { notFound: true, text: '' };
   }
   chosen.sort((a, b) => a.i - b.i);
   let s = `[متن کامل این فایل${f.pages ? '، ' + f.pages + ' صفحه' : ''} و ${f.text.length} حرف است؛ بخش‌های مرتبط با سؤال از آن انتخاب شده است]\n`;
   for (const x of chosen) s += (x.c.page ? `--- صفحه ${x.c.page} ---\n` : '') + x.c.text.trim() + '\n';
-  return s;
+  return { notFound: false, text: s };
 }
 function fullText(m, mediaSupported, question) {
   let s = '';
   for (const f of m.files || []) {
     s += `=== فایل: ${f.name} ===\n`;
     if (f.note) s += `[${f.note}]\n`;
-    if (f.text) s += (f.text.length <= CTX_BUDGET ? f.text : relevantText(f, question || '')) + '\n';
+    if (f.text) {
+      if (f.text.length <= CTX_BUDGET) s += f.text + '\n';
+      else {
+        const r = relevantText(f, question || '');
+        s += (r.notFound ? '[برای این سؤال، بخش مرتبطی در متن این فایل پیدا نشد. اگر سؤال درباره‌ی همین فایل است، صادقانه بگو که در فایل پیدا نشد و از خودت جواب نساز.]' : r.text) + '\n';
+      }
+    }
     const nImg = (f.images || []).length || f.imageCount || 0;
     if (!f.text && nImg) s += '(تصویر پیوست شده است)\n';
     if (f.media || f.hadMedia) {
@@ -690,6 +872,25 @@ function normalizeHistory(list) {
 function buildRequest(s, h) {
   const base = s.baseUrl.trim().replace(/\/+$/, '');
   h = h.map((m) => ({ ...m, files: (m.files || []).filter((f) => !f.off) }));
+  // FileChat v7: عکس و رسانه در نسخه‌ی قبلی در «همه‌ی» نوبت‌ها دوباره
+  // فرستاده می‌شدند و توکن می‌سوزاندند. حالا فقط تازه‌ترین پیامِ کاربری
+  // که عکس/رسانه دارد آن‌ها را می‌فرستد؛ بقیه فقط متن و یادداشتشان
+  // می‌ماند تا در پرسش‌های بعدی هم در دسترس باشند.
+  let keepMediaAt = -1;
+  h.forEach((m, i) => {
+    if (m.role === 'user' && (m.files || []).some((f) => (f.images && f.images.length) || f.media)) keepMediaAt = i;
+  });
+  if (keepMediaAt >= 0) {
+    h = h.map((m, i) => i === keepMediaAt ? m : {
+      ...m,
+      files: (m.files || []).map((f) => ({
+        ...f,
+        images: undefined, media: undefined,
+        imageCount: (f.images || []).length || f.imageCount || 0,
+        hadMedia: !!f.media || !!f.hadMedia
+      }))
+    });
+  }
   const lastUser = [...h].reverse().find((x) => x.role === 'user');
   const question = lastUser ? lastUser.text : '';
   if (s.provider === 'openai') {
@@ -787,7 +988,10 @@ async function callModel(history, onDelta, signal, eff) {
     resp = await fetch(req.url, { method: 'POST', headers: req.headers, body: JSON.stringify(req.body), signal });
   } catch (e) {
     if (e.name === 'AbortError') throw e;
-    throw new Error('اتصال به سرور ممکن نشد. اینترنت (یا فیلترشکن)، Base URL و اجازه‌ی CORS سرویس‌دهنده را بررسی کنید.\n(' + e.message + ')');
+    const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+    throw new Error(isNative
+      ? 'اتصال به سرور ممکن نشد. اینترنت، Base URL و کلید API را بررسی کنید.\n(' + e.message + ')'
+      : 'اتصال به سرور ممکن نشد. در نسخه‌ی وب، علتِ معمول CORS است: سرویس‌دهنده به این وب‌اپ اجازه‌ی اتصال نمی‌دهد (مثلاً GapAPI فقط به gapgpt.app اجازه می‌دهد) و از داخل مرورگر راهی برای دورزدنش نیست؛ نسخه‌ی اندروید FileChat این محدودیت را ندارد. اینترنت و Base URL را هم بررسی کنید.\n(' + e.message + ')');
   }
   if (!resp.ok) {
     const t = await resp.text().catch(() => '');
@@ -1204,6 +1408,12 @@ async function run() {
   render();
   startReveal();
   abortCtl = new AbortController();
+  // FileChat v7: فایلِ صوتی/ویدیویی فقط به Gemini می‌رسد؛ با مدلِ دیگر
+  // کاربر باید «پیش از» ارسال بداند، نه اینکه مدل در متن بفهمد و کاربر نه.
+  const hasMedia = history.some((m) => (m.files || []).some((f) => f.media && !f.off));
+  if (hasMedia && eff.provider !== 'gemini') {
+    showError('توجه: فایل صوتی/ویدیویی فقط با مدل‌های Gemini خوانده می‌شود؛ مدل فعلی آن را دریافت نمی‌کند و پاسخ بر اساس آن نخواهد بود.', false);
+  }
   let failed = null;
   try {
     await callModel(history, (d) => { reply.text += d; }, abortCtl.signal, eff);
@@ -1456,11 +1666,9 @@ document.querySelectorAll('.subhead').forEach((h) => {
 /* ======================= حافظه و زبان ======================= */
 function syncGeneral() {
   $('#memToggle').checked = settings.memory;
-  $('#memAutoToggle').checked = settings.memoryAuto;
   $('#langSel').value = settings.lang;
 }
 $('#memToggle').addEventListener('change', (e) => { settings.memory = e.target.checked; saveSettings(); });
-$('#memAutoToggle').addEventListener('change', (e) => { settings.memoryAuto = e.target.checked; saveSettings(); });
 $('#langSel').addEventListener('change', (e) => {
   settings.lang = e.target.value; saveSettings();
   applyLang(); render(); syncGeneral(); renderProviders(); renderThreads();
