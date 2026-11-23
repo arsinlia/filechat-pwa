@@ -79,10 +79,14 @@ const STR = {
     sources: 'منابع', copy: 'کپی', copied: 'کپی شد', copyFail: 'کپی ممکن نشد', resend: 'ارسال مجدد',
     attach: 'پیوست فایل', send: 'ارسال', stopGen: 'توقف تولید', untitled: 'گفتگوی بدون عنوان',
     readingFile: 'در حال خواندن فایل...', readFail: 'خواندن فایل ناموفق بود', emptyAnswer: '(پاسخ خالی دریافت شد)',
+    repTitle: 'گزارش کامل‌خوانی فایل', repType: 'نوع', repPages: 'صفحه‌ها', repDirect: 'متن مستقیم', repImgOnly: 'فقط تصویر', repSkipped: 'خوانده‌نشده',
+    repChars: 'حروف استخراج‌شده', repChunks: 'تکه‌های قابل جست‌وجو', repEntries: 'ورودی‌های آرشیو', repReadOk: 'خوانده‌شده', repImage: 'عکس',
+    repOcrDone: 'انجام شد', repOcrNone: 'انجام نشد', repPartial: '%A از %B صفحه خوانده شد',
+    memTitle: '[حافظه‌ی گفتگوهای قبلی کاربر — فقط اگر به سؤال مربوط است استفاده کن]', memBase: 'گفتگوهای اخیر:', memHits: 'بخش‌های مرتبط از گفتگوهای قبلی:', memUser: 'کاربر', memAi: 'دستیار',
     keyFirst: 'ابتدا از تنظیمات یک ارائه‌دهنده اضافه کنید', colorDone: 'انجام شد؛ رنگ تغییر کرد.',
     viewEnable: 'فعال‌کردن در پاسخ‌ها', viewDisable: 'غیرفعال‌کردن در پاسخ‌ها', viewNone: '(متن قابل نمایشی برای این فایل در حافظه نیست)',
     fileOff: ' (غیرفعال)', install: 'نصب برنامه',
-    aboutTagline: 'چت با فایل‌های شما', aboutVersion: 'نسخه', aboutVersionVal: '۶٫۰',
+    aboutTagline: 'چت با فایل‌های شما', aboutVersion: 'نسخه', aboutVersionVal: '۸٫۰',
     aboutText: 'FileChat با فایل‌های شما گفتگو می‌کند: PDF و اسناد را کامل می‌خواند و برای هر سؤال، بخش مرتبط از متن کامل را پیدا می‌کند و بر همان اساس پاسخ می‌دهد. به ارائه‌دهنده‌هایی که خودتان با نشانی و کلید اضافه می‌کنید وصل می‌شود؛ کلید فقط در حافظه‌ی همین دستگاه می‌ماند.'
   },
   en: {
@@ -114,10 +118,14 @@ const STR = {
     sources: 'Sources', copy: 'Copy', copied: 'Copied', copyFail: 'Copy failed', resend: 'Resend',
     attach: 'Attach file', send: 'Send', stopGen: 'Stop generating', untitled: 'Untitled chat',
     readingFile: 'Reading file...', readFail: 'Could not read the file', emptyAnswer: '(empty reply)',
+    repTitle: 'File reading report', repType: 'Type', repPages: 'Pages', repDirect: 'direct text', repImgOnly: 'image only', repSkipped: 'not read',
+    repChars: 'Extracted characters', repChunks: 'Searchable chunks', repEntries: 'Archive entries', repReadOk: 'read', repImage: 'Image',
+    repOcrDone: 'done', repOcrNone: 'not done', repPartial: '%A of %B pages read',
+    memTitle: '[Memory from the user’s earlier conversations — use only if relevant to the question]', memBase: 'Recent conversations:', memHits: 'Relevant excerpts from earlier conversations:', memUser: 'User', memAi: 'Assistant',
     keyFirst: 'First add a provider in Settings', colorDone: 'Done; color changed.',
     viewEnable: 'Enable in answers', viewDisable: 'Disable in answers', viewNone: '(no displayable text stored for this file)',
     fileOff: ' (off)', install: 'Install app',
-    aboutTagline: 'Chat with your files', aboutVersion: 'Version', aboutVersionVal: '6.0',
+    aboutTagline: 'Chat with your files', aboutVersion: 'Version', aboutVersionVal: '8.0',
     aboutText: 'FileChat chats with your files: it reads PDFs and documents in full and, for each question, finds the relevant part of the complete text and answers from it. It connects to providers you add with your own URL and key; keys stay only on this device.'
   },
   ar: {
@@ -149,10 +157,14 @@ const STR = {
     sources: 'المصادر', copy: 'نسخ', copied: 'تم النسخ', copyFail: 'فشل النسخ', resend: 'إعادة الإرسال',
     attach: 'إرفاق ملف', send: 'إرسال', stopGen: 'إيقاف التوليد', untitled: 'محادثة بلا عنوان',
     readingFile: 'جار قراءة الملف...', readFail: 'تعذرت قراءة الملف', emptyAnswer: '(رد فارغ)',
+    repTitle: 'تقرير قراءة الملف', repType: 'النوع', repPages: 'الصفحات', repDirect: 'نص مباشر', repImgOnly: 'صورة فقط', repSkipped: 'لم يُقرأ',
+    repChars: 'الأحرف المستخرجة', repChunks: 'المقاطع القابلة للبحث', repEntries: 'مداخل الأرشيف', repReadOk: 'قُرئ', repImage: 'صورة',
+    repOcrDone: 'تم', repOcrNone: 'لم يتم', repPartial: 'قُرئ %A من %B صفحة',
+    memTitle: '[ذاكرة محادثات المستخدم السابقة — استخدمها فقط إذا كانت ذات صلة بالسؤال]', memBase: 'المحادثات الأخيرة:', memHits: 'مقاطع ذات صلة من محادثات سابقة:', memUser: 'المستخدم', memAi: 'المساعد',
     keyFirst: 'أضف مقدما أولا من الإعدادات', colorDone: 'تم؛ تغير اللون.',
     viewEnable: 'التفعيل في الردود', viewDisable: 'التعطيل في الردود', viewNone: '(لا نص محفوظ لهذا الملف)',
     fileOff: ' (معطل)', install: 'تثبيت التطبيق',
-    aboutTagline: 'الدردشة مع ملفاتك', aboutVersion: 'الإصدار', aboutVersionVal: '٦٫٠',
+    aboutTagline: 'الدردشة مع ملفاتك', aboutVersion: 'الإصدار', aboutVersionVal: '٨٫٠',
     aboutText: 'FileChat يدردش مع ملفاتك: يقرأ ملفات PDF والمستندات كاملة ويجد لكل سؤال الجزء المناسب من النص الكامل ويجيب بناء عليه. يتصل بالمقدمين الذين تضيفهم بعنوانك ومفتاحك؛ تبقى المفاتيح على هذا الجهاز فقط.'
   }
 };
@@ -214,7 +226,7 @@ function slimThread(th, withText) {
     messages: th.messages.map((m) => ({
       role: m.role, text: m.text, sources: m.sources,
       files: (m.files || []).map((f) => ({
-        name: f.name, note: f.note, off: f.off, pages: f.pages,
+        name: f.name, note: f.note, off: f.off, pages: f.pages, rep: f.rep,
         text: withText ? f.text : undefined,
         imageCount: (f.images || []).length || f.imageCount || 0,
         hadMedia: !!f.media || !!f.hadMedia
@@ -507,10 +519,12 @@ async function pdfProcess(file, buf, asImages) {
 
   if (asImages) {
     const images = await render(30);
-    return { name: file.name, images, note: `PDF به صورت تصویر ارسال شد (${images.length} صفحه‌ی اول)` };
+    return { name: file.name, images, note: `PDF به صورت تصویر ارسال شد (${images.length} صفحه‌ی اول)`,
+      rep: { kind: 'pdf', total: doc.numPages, direct: 0, ocr: 0, imgOnly: images.length, skipped: Math.max(0, doc.numPages - images.length), chars: 0, chunks: 0 } };
   }
 
   let out = '';
+  let directPages = 0;
   for (let p = 1; p <= doc.numPages; p++) {
     const page = await doc.getPage(p);
     const tc = await page.getTextContent();
@@ -521,10 +535,15 @@ async function pdfProcess(file, buf, asImages) {
       line += it.str;
       if (y !== null) lastY = y;
     }
+    if (line.trim().length >= 10) directPages++;
     out += `\n--- صفحه ${p} ---\n` + line;
   }
   out = out.normalize('NFKC');
-  if (out.replace(/--- صفحه \d+ ---/g, '').trim().length >= 40) return { name: file.name, text: out.trim(), pages: doc.numPages };
+  if (out.replace(/--- صفحه \d+ ---/g, '').trim().length >= 40) {
+    const tx = out.trim();
+    return { name: file.name, text: tx, pages: doc.numPages,
+      rep: { kind: 'pdf', total: doc.numPages, direct: directPages, ocr: 0, imgOnly: 0, skipped: 0, chars: tx.length, chunks: chunkText(tx).length } };
+  }
 
   // FileChat v7: اسکن‌ها اول با OCR داخلی خوانده می‌شوند (تا ۳۰ صفحه) تا
   // با مدلِ متنی هم قابل استفاده باشند؛ اگر OCR متنِ کافی نداد، مسیرِ
@@ -532,13 +551,19 @@ async function pdfProcess(file, buf, asImages) {
   try {
     const ocr = await ocrPdfText(doc, render, 30);
     if (ocr && ocr.replace(/--- صفحه \d+ ---/g, '').trim().length >= 40) {
-      return { name: file.name, text: ocr.trim(), pages: doc.numPages, note: 'این PDF اسکن بود و متنش با OCR داخلی خوانده شد' };
+      const tx = ocr.trim();
+      const ocrPages = Math.min(doc.numPages, 30);
+      const skipped = Math.max(0, doc.numPages - ocrPages);
+      return { name: file.name, text: tx, pages: doc.numPages,
+        note: 'این PDF اسکن بود و متنش با OCR داخلی خوانده شد' + (skipped ? `؛ فقط ${ocrPages} صفحه‌ی اول (سقف OCR)` : ''),
+        rep: { kind: 'pdf', total: doc.numPages, direct: 0, ocr: ocrPages, imgOnly: 0, skipped, chars: tx.length, chunks: chunkText(tx).length } };
     }
   } catch (e) { /* OCR در دسترس نبود — مسیرِ تصویر */ }
   const images = await render(20);
   return {
     name: file.name, images,
-    note: `این PDF متن قابل استخراج نداشت (احتمالاً اسکن است)؛ ${images.length} صفحه‌ی اول به صورت تصویر ارسال شد و مدل باید قابلیت بینایی داشته باشد`
+    note: `این PDF متن قابل استخراج نداشت (احتمالاً اسکن است)؛ ${images.length} صفحه‌ی اول به صورت تصویر ارسال شد و مدل باید قابلیت بینایی داشته باشد`,
+    rep: { kind: 'pdf', total: doc.numPages, direct: 0, ocr: 0, imgOnly: images.length, skipped: Math.max(0, doc.numPages - images.length), chars: 0, chunks: 0 }
   };
 }
 
@@ -560,20 +585,33 @@ async function pptxText(buf) {
 }
 
 
-/* ===== FileChat v7: OCR داخلی برای PDFهای اسکن‌شده (Tesseract، فارسی) ===== */
+/* ===== FileChat v7: OCR داخلی برای PDFهای اسکن‌شده (Tesseract، فارسی) =====
+   ===== FileChat v8: OCR دوزبانه (فارسی+انگلیسی) با worker مشترک — برای
+   PDFهای اسکن‌شده و عکس‌های پیوستی هر دو استفاده می‌شود ===== */
+let ocrWorkerP = null;
+function ocrWorker() {
+  if (!ocrWorkerP) {
+    ocrWorkerP = (async () => {
+      await loadScript(CDN.tesseract);
+      if (typeof Tesseract === 'undefined') return null;
+      try { return await Tesseract.createWorker(['fas', 'eng']); }
+      catch (e) { return await Tesseract.createWorker('fas'); }
+    })().catch(() => null);
+  }
+  return ocrWorkerP;
+}
+async function ocrDataUrl(url) {
+  const w = await ocrWorker();
+  if (!w) return '';
+  const { data } = await w.recognize(url);
+  return (data && data.text) || '';
+}
 async function ocrPdfText(doc, render, maxPages) {
-  await loadScript(CDN.tesseract);
-  if (typeof Tesseract === 'undefined') return '';
   const imgs = await render(maxPages);
-  const worker = await Tesseract.createWorker('fas');
   let out = '';
-  try {
-    for (let i = 0; i < imgs.length; i++) {
-      const { data } = await worker.recognize('data:' + imgs[i].mime + ';base64,' + imgs[i].b64);
-      out += '\n--- صفحه ' + (i + 1) + ' ---\n' + ((data && data.text) || '');
-    }
-  } finally {
-    try { await worker.terminate(); } catch (e) { /* ignore */ }
+  for (let i = 0; i < imgs.length; i++) {
+    const txt = await ocrDataUrl('data:' + imgs[i].mime + ';base64,' + imgs[i].b64);
+    out += '\n--- صفحه ' + (i + 1) + ' ---\n' + txt;
   }
   return out;
 }
@@ -693,7 +731,7 @@ async function archiveFile(file, depth) {
   const zip = await JSZip.loadAsync(await file.arrayBuffer());
   const names = Object.keys(zip.files).filter((n) => !zip.files[n].dir);
   const texts = [], images = [], notes = [];
-  let media = null, total = 0;
+  let media = null, total = 0, readOk = 0;
   for (const entryName of names.slice(0, 500)) {
     const entry = zip.files[entryName];
     const buf = await entry.async('arraybuffer');
@@ -706,6 +744,7 @@ async function archiveFile(file, depth) {
     } catch (e) {
       r = { name: base, note: 'خوانده نشد: ' + (e.message || e) };
     }
+    if (r.text || r.images || r.media) readOk++;
     if (r.text) texts.push('[فایل داخلی: ' + entryName + ']\n' + r.text);
     if (r.images) for (const im of r.images) images.push(im);
     if (r.media && !media) media = r.media;
@@ -716,6 +755,8 @@ async function archiveFile(file, depth) {
   if (images.length) out.images = images;
   if (media) out.media = media;
   if (notes.length) out.note = notes.join('؛ ');
+  out.rep = { kind: 'zip', entries: names.length, read: readOk, skipped: Math.max(0, names.length - readOk),
+    chars: out.text ? out.text.length : 0, chunks: out.text ? chunkText(out.text).length : 0 };
   if (!out.text && !out.images && !out.media && !out.note) out.note = 'در این آرشیو فایل خواندنی پیدا نشد';
   return out;
 }
@@ -726,9 +767,28 @@ async function extractFile(file, depth) {
   const name = file.name || 'file';
   const ext = (name.split('.').pop() || '').toLowerCase();
   const mime = (file.type || '').toLowerCase();
-  const textual = (t) => (t.trim() ? { name, text: clip(t) } : { name, note: 'هیچ متنی در این فایل پیدا نشد' });
+  const textual = (t) => {
+    if (!t.trim()) return { name, note: 'هیچ متنی در این فایل پیدا نشد', rep: { kind: ext || 'text', chars: 0, chunks: 0 } };
+    const tx = clip(t);
+    return { name, text: tx, rep: { kind: ext || 'text', chars: tx.length, chunks: chunkText(tx).length } };
+  };
 
-  if (mime.startsWith('image/') || IMAGE_EXT.includes(ext)) return { name, images: [await imageBlob(file)] };
+  /* FileChat v8: عکسِ پیوستی علاوه بر ارسال به مدل‌های بینایی، با OCR
+     داخلی (فارسی+انگلیسی) هم خوانده می‌شود تا مدل‌های متنی هم متنِ
+     سندِ عکاسی‌شده را داشته باشند؛ خطای OCR مسیرِ تصویری را نگه می‌دارد. */
+  if (mime.startsWith('image/') || IMAGE_EXT.includes(ext)) {
+    const img = await imageBlob(file);
+    const out = { name, images: [img], rep: { kind: 'image', ocr: 0, chars: 0, chunks: 0 } };
+    try {
+      const txt = await ocrDataUrl('data:' + img.mime + ';base64,' + img.b64);
+      if (txt && txt.trim().length >= 40) {
+        out.text = clip(txt.trim());
+        out.note = 'متن این عکس با OCR داخلی خوانده شد (فارسی+انگلیسی)';
+        out.rep = { kind: 'image', ocr: 1, chars: out.text.length, chunks: chunkText(out.text).length };
+      }
+    } catch (e) { /* OCR در دسترس نبود — فقط تصویر */ }
+    return out;
+  }
 
   if (mime === 'application/pdf' || ext === 'pdf') return pdfProcess(file, await file.arrayBuffer(), settings.pdfAsImages);
 
@@ -753,7 +813,7 @@ async function extractFile(file, depth) {
   if (mime.startsWith('audio/') || mime.startsWith('video/') || MEDIA_MIME[ext]) {
     if (file.size > MAX_MEDIA) throw new Error('فایل صوتی/ویدیویی بیشتر از ۱۵ مگابایت است');
     const m = (mime.startsWith('audio/') || mime.startsWith('video/')) ? mime : MEDIA_MIME[ext];
-    return { name, media: { mime: m, b64: await fileToB64(file) } };
+    return { name, media: { mime: m, b64: await fileToB64(file) }, rep: { kind: 'media', chars: 0, chunks: 0 } };
   }
 
   const buf = await file.arrayBuffer();
@@ -1166,7 +1226,16 @@ function renderChips() {
     const nm = document.createElement('div'); nm.className = 'ap-nm'; nm.textContent = f.name; nm.title = f.name;
     nm.onclick = () => viewFile(f);
     const sub = document.createElement('div'); sub.className = 'ap-sub';
-    sub.textContent = f.text ? f.text.length.toLocaleString(settings.lang === 'en' ? 'en' : 'fa') + ' ✓' : (f.note || '');
+    let subTxt = f.text ? f.text.length.toLocaleString(settings.lang === 'en' ? 'en' : 'fa') + ' ✓' : (f.note || '');
+    const rp = f.rep;
+    if (rp && rp.kind === 'pdf' && rp.total > 0) {
+      const read = (rp.direct || 0) + (rp.ocr || 0) + (rp.imgOnly || 0);
+      if (read < rp.total) {
+        const loc = settings.lang === 'en' ? 'en' : 'fa';
+        subTxt += (subTxt ? ' • ' : '') + t('repPartial').replace('%A', read.toLocaleString(loc)).replace('%B', rp.total.toLocaleString(loc));
+      }
+    }
+    sub.textContent = subTxt;
     mid.append(nm, sub);
     const x = document.createElement('button'); x.className = 'ap-x'; x.textContent = '✕';
     x.onclick = () => { pending.splice(i, 1); renderChips(); updateUI(); };
@@ -1185,10 +1254,30 @@ let viewTarget = null;
 function syncViewToggle() {
   $('#viewToggle').textContent = viewTarget && viewTarget.off ? t('viewEnable') : t('viewDisable');
 }
+/* FileChat v8: گزارش کامل‌خوانی — از روی rep ساخته می‌شود تا با زبانِ فعلیِ رابط دیده شود */
+function reportLines(f) {
+  const r = f.rep;
+  const num = (n) => Number(n || 0).toLocaleString(settings.lang === 'en' ? 'en' : 'fa');
+  if (!r) {
+    if (f.pages) return t('repTitle') + '\n' + t('repType') + ': PDF\n' + t('repPages') + ': ' + num(f.pages);
+    return '';
+  }
+  const L = [t('repTitle'), t('repType') + ': ' + (r.kind === 'image' ? t('repImage') : String(r.kind || '').toUpperCase())];
+  if (r.kind === 'pdf') {
+    L.push(t('repPages') + ': ' + num(r.total) + ' — ' + t('repDirect') + ': ' + num(r.direct) + '، OCR: ' + num(r.ocr) + '، ' + t('repImgOnly') + ': ' + num(r.imgOnly) + '، ' + t('repSkipped') + ': ' + num(r.skipped));
+  }
+  if (r.kind === 'zip') L.push(t('repEntries') + ': ' + num(r.entries) + ' — ' + t('repReadOk') + ': ' + num(r.read) + '، ' + t('repSkipped') + ': ' + num(r.skipped));
+  if (r.kind === 'image') L.push('OCR: ' + (r.ocr ? t('repOcrDone') : t('repOcrNone')));
+  if (r.chars) L.push(t('repChars') + ': ' + num(r.chars));
+  if (r.chunks) L.push(t('repChunks') + ': ' + num(r.chunks));
+  return L.join('\n');
+}
 function viewFile(f) {
   viewTarget = f;
   $('#viewTitle').textContent = f.name;
-  $('#viewText').textContent = f.text || (f.note ? '[' + f.note + ']' : '') || t('viewNone');
+  const rep = reportLines(f);
+  const body = f.text || (f.note ? '[' + f.note + ']' : '') || t('viewNone');
+  $('#viewText').textContent = rep ? rep + '\n\n' + body : body;
   syncViewToggle();
   const d = $('#viewDlg');
   if (!d.open) d.showModal();
@@ -1368,6 +1457,57 @@ function applyColorCommand(cmd) {
   saveSettings(); applyAppearance();
 }
 
+/* FileChat v8: حافظه‌ی میان‌گفتگویی واقعی — تا v7 کلیدِ حافظه فقط
+   تاریخچه‌ی همین گفتگو را کامل/خلاصه می‌کرد و گفتگوهای دیگر هرگز دیده
+   نمی‌شدند. حالا با همان کلید: خطِ پایه از گفتگوهای اخیر + بازیابیِ
+   رتبه‌بندی‌شده از همه‌ی گفتگوهای ذخیره‌شده، با سقف ۴۰۰۰ حرف (به سبک
+   ArsinLia). کلید خاموش = هیچ تزریقی نیست. */
+const MEM_CAP = 4000;
+function buildMemoryBlock(question) {
+  if (!settings.memory) return '';
+  const others = threads.filter((x) => x.id !== curId && x.messages && x.messages.length);
+  if (!others.length) return '';
+  const parts = [];
+  const base = [];
+  for (const th of others.slice(0, 4)) {
+    const firstUser = th.messages.find((m) => m.role === 'user' && (m.text || '').trim());
+    if (!firstUser) continue;
+    base.push('«' + (th.title || firstUser.text.slice(0, 42)) + '»: ' + firstUser.text.slice(0, 220));
+  }
+  if (base.length) parts.push(t('memBase') + '\n' + base.join('\n'));
+  const q = faNorm(question || '');
+  const terms = [...new Set(q.split(/[^\p{L}\p{N}]+/u).filter((w) => w.length >= 2))];
+  if (terms.length) {
+    const scored = [];
+    for (const th of others) {
+      for (const m of th.messages) {
+        const txt = (m.text || '').trim();
+        if (!txt) continue;
+        const cn = faNorm(txt);
+        let sc = 0;
+        for (const term of terms) {
+          let n = 0, j = 0;
+          while ((j = cn.indexOf(term, j)) >= 0 && n < 5) { n++; j += term.length; }
+          sc += n;
+        }
+        if (sc > 0) scored.push({ sc, th, m, txt });
+      }
+    }
+    scored.sort((a, b) => b.sc - a.sc);
+    const picks = [];
+    let used = parts.join('\n').length;
+    for (const p of scored) {
+      const line = '[' + (p.th.title || '') + '] ' + (p.m.role === 'user' ? t('memUser') : t('memAi')) + ': ' + p.txt.slice(0, 600);
+      if (used + line.length > MEM_CAP) continue;
+      picks.push(line); used += line.length;
+      if (picks.length >= 6) break;
+    }
+    if (picks.length) parts.push(t('memHits') + '\n' + picks.join('\n'));
+  }
+  const block = parts.join('\n\n');
+  return block ? t('memTitle') + '\n' + block : '';
+}
+
 async function send() {
   if (busy || processing) return;
   const text = inputEl.value.trim();
@@ -1416,7 +1556,10 @@ async function run() {
   }
   let failed = null;
   try {
-    await callModel(history, (d) => { reply.text += d; }, abortCtl.signal, eff);
+    const lastUserMsg = [...history].reverse().find((m) => m.role === 'user');
+    const memBlock = buildMemoryBlock(lastUserMsg ? lastUserMsg.text : '');
+    const effSend = memBlock ? { ...eff, systemPrompt: ((eff.systemPrompt || '') + '\n\n' + memBlock).trim() } : eff;
+    await callModel(history, (d) => { reply.text += d; }, abortCtl.signal, effSend);
     if (!reply.text) reply.text = t('emptyAnswer');
   } catch (e) {
     if (e.name !== 'AbortError') failed = e.message || String(e);
